@@ -115,8 +115,13 @@ function updatePlaying(dt) {
   keepEnemiesApart();
   updateFurballs(dt);
 
-  updateBiscuitAttacks(dt);   // Biscuit swipes at nearby enemy cats
+  updateBiscuitAttacks(dt);   // Biscuit (and Big Tony) swipe at nearby enemies
   updateFleeingEnemies(dt);
+
+  /* The pause on the "BIG TONY HAS JOINED YOU" moment, which ends the
+     boss day early once it runs out (js/rules/boss.js). */
+  updateBossCelebration(dt);
+  if (state.screen !== 'playing') { return; }
 
   updateHorse(dt);
 

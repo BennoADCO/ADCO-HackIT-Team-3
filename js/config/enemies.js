@@ -53,13 +53,27 @@ Object.assign(CONFIG, {
      ------------------------------------------------------------------
      Day 1 uses the first number, Day 2 the second, and so on. If there
      are more days than numbers, the last number repeats.
+
+     Day 5's number is ignored: that's Big Tony's day, and he turns up on
+     his own (see js/config/boss.js).
      ------------------------------------------------------------------ */
 
-  WAVE_SIZES: [3, 4, 6, 8, 10],
+  //             1  2  3  4  5(boss)
+  WAVE_SIZES: [  3, 4, 6, 8, 5,
+  //             6  7  8  9 10
+                 6, 7, 8, 8, 9,
+  //            11 12 13 14 15
+                 9, 10, 10, 11, 11,
+  //            16 17 18 19 20 21
+                 12, 12, 13, 13, 14, 15 ],
 
   // Every day beyond Day 1, cats throw a little faster and a little
-  // harder. 1 = no change. 0.92 means 8% faster each day.
+  // harder. 1 = no change. 0.9 means 10% faster each day.
   WAVE_FIRE_SPEEDUP_PER_DAY: 0.9,
+
+  // ...but it stops there, or the late days would be impossible. 0.5 means
+  // "never more than twice as fast as Day 1, however long the season is".
+  WAVE_FIRE_SPEEDUP_FLOOR: 0.5,
 
 
   /* ------------------------------------------------------------------

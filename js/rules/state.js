@@ -40,6 +40,12 @@ function resetGame() {
     dodged: 0,        // furballs successfully dodged this run — the score
     dayHits: 0,       // times she was hit today, for the end-of-day screen
 
+    /* Big Tony, the boss cat (js/rules/boss.js). */
+    tonyRecruited: false,   // has he been knocked down and joined Grandma?
+    tonyOutThere: false,    // did he escape his day and keep coming back?
+    tonyHitsTaken: 0,       // how battered he already is, remembered between days
+    bossCelebrate: 0,       // the little pause after he joins your side
+
     action: null,
     particles: [],
     message: '',

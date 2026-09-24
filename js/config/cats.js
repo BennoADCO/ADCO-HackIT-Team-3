@@ -73,6 +73,11 @@ Object.assign(CONFIG, {
       name: 'Affectionate', emoji: '🥰',
       blurb: 'A cuddle goes a very long way.',
       groomJoy: 2.4
+    },
+    scrapper: {
+      name: 'Scrapper', emoji: '💪',
+      blurb: 'Used to be the enemy. Swipes slowly, but twice as hard.',
+      groomJoy: 0.8
     }
   },
 
@@ -102,6 +107,12 @@ Object.assign(CONFIG, {
   // How Biscuit keeps up with Grandma.
   FOLLOW_GAP: 58,             // how close (in dots) Biscuit gets before stopping
   FOLLOW_SPEED: 250,          // dots per second. Grandma walks at 270.
+
+  // Once Big Tony joins (see js/config/boss.js) there are two cats trotting
+  // after Grandma. This is how much room they leave each other — smaller
+  // than CAT_MINIMUM_GAP below, so they can both stay close to her, but big
+  // enough that their name tags don't sit on top of one another.
+  FOLLOWER_MINIMUM_GAP: 72,
 
 
   // The patch of ground the cats wander around in.

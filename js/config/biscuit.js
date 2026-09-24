@@ -38,8 +38,9 @@ Object.assign(CONFIG, {
   // The words that pop up.
   BISCUIT_WORDS: {
     swipe: '💢',
-    chasedOff: '💨 Biscuit chased off',   // followed by the enemy's name
-    allGone: 'Biscuit cleared the garden! 🐱🏆'
+    chasedOff: 'chased off',   // the fighting cat's name goes before this,
+                               // and the enemy's name after it
+    allGone: 'The garden is clear! 🐱🏆'
   }
 
 });

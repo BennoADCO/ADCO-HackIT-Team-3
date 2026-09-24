@@ -40,8 +40,10 @@ Object.assign(CONFIG, {
 
   // How long a single day lasts, in seconds, and how many days you must
   // survive to win.
+  // 21 days at 45 seconds is about 16 minutes of play. If that's too long
+  // for a demo, drop DAY_LENGTH_SECONDS to 30 or DAYS_IN_SEASON to 10.
   DAY_LENGTH_SECONDS: 45,
-  DAYS_IN_SEASON: 5,
+  DAYS_IN_SEASON: 21,
 
 
   /* ------------------------------------------------------------------

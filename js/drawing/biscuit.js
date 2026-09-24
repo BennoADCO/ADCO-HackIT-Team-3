@@ -10,7 +10,8 @@
 function drawEnemyHealth(enemy) {
   var hits = enemy.hitsTaken || 0;
   if (hits === 0) { return; }
-  var left = 1 - hits / CONFIG.ENEMY_HITS_TO_BEAT;
+  var needed = enemy.hitsToBeat || CONFIG.ENEMY_HITS_TO_BEAT;
+  var left = ENGINE.clamp(1 - hits / needed, 0, 1);
   ENGINE.drawBar(enemy.x - 22, enemy.y - 82, 44, 6, left,
                  CONFIG.ENEMY_HEALTH_BAR_COLOUR, CONFIG.ENEMY_HEALTH_BAR_EMPTY);
 }
@@ -20,7 +21,7 @@ function drawSwipes() {
   for (var i = 0; i < state.swipes.length; i++) {
     var s = state.swipes[i];
     ctx.globalAlpha = s.life / s.maxLife;
-    ctx.strokeStyle = CONFIG.BISCUIT_ATTACK.slashColour;
+    ctx.strokeStyle = s.colour || CONFIG.BISCUIT_ATTACK.slashColour;
     ctx.lineWidth = 4;
     ctx.lineCap = 'round';
     for (var k = -1; k <= 1; k++) {

@@ -22,19 +22,24 @@ function drawHud() {
   ENGINE.drawBar(132, 29, 132, 12, state.dayTime / CONFIG.DAY_LENGTH_SECONDS,
                  '#ffd24a', 'rgba(0,0,0,0.35)');
 
-  /* Biscuit's health, then the furball-dodging score. */
-  var friend = followerCat();
-  if (friend) {
-    drawHudChip('💚', friend.name + '  ' + Math.round(friend.health), 340,
+  /* One health chip per cat fighting for you — Biscuit, and Big Tony too
+     once he's been recruited. */
+  var friends = fightingCats();
+  for (var i = 0; i < friends.length && i < 2; i++) {
+    drawHudChip(friends[i].emoji, Math.round(friends[i].health), 310 + i * 86,
                 CONFIG.CAT_HEALTH_BAR_COLOUR);
   }
+
   drawHudChip('💨', state.dodged, 540, '#bde6ff');
   drawHudChip('😾', state.enemies.length, 650, '#ffb3b3');
   drawHudChip('🏆', state.bestScore, 760, '#ffd24a');
 
   if (ENGINE.isMuted()) {
-    ENGINE.drawText('🔇 muted (M)', W - 30, 74, 12, '#6b5a47', 'right');
+    ENGINE.drawText('🔇 muted (M)', W - 30, 90, 12, '#6b5a47', 'right');
   }
+
+  /* Big Tony's great red bar, if he's here (js/drawing/boss.js). */
+  drawBossBar();
 }
 
 function drawHudChip(emoji, value, x, colour) {
@@ -95,6 +100,9 @@ function drawBottomBar() {
 
 /* Works out the single most useful thing to tell the player right now. */
 function nextStepHint() {
+  /* The boss trumps everything else worth saying. */
+  if (bossOnScreen()) { return CONFIG.BOSS_WORDS.hint; }
+
   var friend = followerCat();
   if (friend && friend.health >= 100) { return CONFIG.TEXT.allWell; }
   if (friend) { return CONFIG.TEXT.needGroom; }
@@ -110,7 +118,10 @@ function drawMessage() {
   var width = ctx.measureText(state.message).width + 44;
   var x = CONFIG.CANVAS_WIDTH / 2 - width / 2;
 
-  ENGINE.fillRound(x, 92, width, 34, 17, 'rgba(74, 59, 47, 0.92)');
-  ENGINE.drawText(state.message, CONFIG.CANVAS_WIDTH / 2, 109, 15, '#fff6e6');
+  /* Drop the bubble below the boss's big bar when he's on screen. */
+  var y = bossOnScreen() ? 132 : 92;
+
+  ENGINE.fillRound(x, y, width, 34, 17, 'rgba(74, 59, 47, 0.92)');
+  ENGINE.drawText(state.message, CONFIG.CANVAS_WIDTH / 2, y + 17, 15, '#fff6e6');
   ctx.globalAlpha = 1;
 }

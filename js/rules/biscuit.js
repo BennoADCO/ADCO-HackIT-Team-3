@@ -9,58 +9,86 @@
    All the numbers are in js/config/biscuit.js.
    ========================================================================== */
 
-/* Biscuit is whichever cat follows Grandma. Returns nothing if there isn't one. */
-function findBiscuit() {
+/* Every cat trotting along with Grandma is a fighter. That's Biscuit to
+   start with, and Big Tony too once he's been recruited. */
+function fightingCats() {
+  var fighters = [];
   for (var i = 0; i < state.cats.length; i++) {
-    if (state.cats[i].followsGrandma) { return state.cats[i]; }
+    if (state.cats[i].followsGrandma) { fighters.push(state.cats[i]); }
   }
-  return null;
+  return fighters;
+}
+
+/* Biscuit is the first cat following Grandma. Nothing if there isn't one. */
+function findBiscuit() {
+  var fighters = fightingCats();
+  return fighters.length > 0 ? fighters[0] : null;
 }
 
 function updateBiscuitAttacks(dt) {
-  var attack = CONFIG.BISCUIT_ATTACK;
-  var biscuit = findBiscuit();
-  if (!biscuit) { return; }
+  var fighters = fightingCats();
+  for (var i = 0; i < fighters.length; i++) {
+    updateOneFighter(fighters[i], dt);
+  }
+}
 
-  /* The "lunge" is how far Biscuit is leaning towards its target right
+/* One cat looking for something to swipe at. Biscuit uses the numbers in
+   js/config/biscuit.js; Big Tony carries his own from js/config/boss.js. */
+function updateOneFighter(fighter, dt) {
+  var attack = fighter.attack || CONFIG.BISCUIT_ATTACK;
+
+  /* The "lunge" is how far this cat is leaning towards its target right
      now. It shrinks back to nothing after each swipe. */
-  if (biscuit.lunge === undefined) { biscuit.lunge = 0; biscuit.swipeTimer = 0; }
-  biscuit.lunge = Math.max(0, biscuit.lunge - 90 * dt);
-  biscuit.swipeTimer -= dt;
+  if (fighter.lunge === undefined) { fighter.lunge = 0; fighter.swipeTimer = 0; }
+  fighter.lunge = Math.max(0, fighter.lunge - 90 * dt);
+  fighter.swipeTimer -= dt;
 
-  /* No swiping while Biscuit is busy being groomed. */
-  var beingGroomed = state.action && state.action.target === biscuit;
-  if (beingGroomed || biscuit.swipeTimer > 0) { return; }
+  /* No swiping while it's busy being groomed. */
+  var beingGroomed = state.action && state.action.target === fighter;
+  if (beingGroomed || fighter.swipeTimer > 0) { return; }
 
   /* Find the nearest enemy close enough to reach. */
   var target = null;
   var targetGap = attack.range;
   for (var i = 0; i < state.enemies.length; i++) {
-    var gap = ENGINE.distance(biscuit.x, biscuit.y, state.enemies[i].x, state.enemies[i].y);
+    var gap = ENGINE.distance(fighter.x, fighter.y, state.enemies[i].x, state.enemies[i].y);
     if (gap < targetGap) { target = state.enemies[i]; targetGap = gap; }
   }
   if (!target) { return; }
 
   /* SWIPE! */
-  biscuit.swipeTimer = attack.secondsBetween;
-  biscuit.lunge = attack.lungeDistance;
-  biscuit.lungeX = (target.x - biscuit.x) / Math.max(targetGap, 1);
-  biscuit.lungeY = (target.y - biscuit.y) / Math.max(targetGap, 1);
+  fighter.swipeTimer = attack.secondsBetween;
+  fighter.lunge = attack.lungeDistance;
+  fighter.lungeX = (target.x - fighter.x) / Math.max(targetGap, 1);
+  fighter.lungeY = (target.y - fighter.y) / Math.max(targetGap, 1);
 
-  target.hitsTaken = (target.hitsTaken || 0) + 1;
-  state.swipes.push({ x: target.x, y: target.y - 30, life: 0.3, maxLife: 0.3 });
+  /* Tony's swipes count double — see 'hitsPerSwipe' in js/config/boss.js. */
+  var power = attack.hitsPerSwipe || 1;
+  target.hitsTaken = (target.hitsTaken || 0) + power;
+
+  state.swipes.push({ x: target.x, y: target.y - 30, life: 0.3, maxLife: 0.3,
+                      colour: attack.slashColour });
   addParticle(target.x, target.y - 70, CONFIG.BISCUIT_WORDS.swipe, '#e5484d', 20);
   ENGINE.sound('bossHit');
 
-  if (target.hitsTaken >= CONFIG.ENEMY_HITS_TO_BEAT) {
-    chaseOffEnemy(target);
+  /* Big Tony takes far more swipes than an ordinary alley cat. */
+  var needed = target.hitsToBeat || CONFIG.ENEMY_HITS_TO_BEAT;
+
+  if (target.hitsTaken >= needed) {
+    if (target.isBoss) {
+      recruitBigTony(target);   // he changes sides instead of running off
+    } else {
+      chaseOffEnemy(target, fighter);
+    }
+  } else if (target.isBoss) {
+    checkBossWobble(target);
   }
 }
 
 /* The enemy gives up: it leaves the fight and runs straight away from
-   Biscuit until it's off the screen. */
-function chaseOffEnemy(enemy) {
-  var biscuit = findBiscuit();
+   whichever cat saw it off, until it's off the screen. */
+function chaseOffEnemy(enemy, attacker) {
+  var biscuit = attacker || findBiscuit();
   var dx = enemy.x - biscuit.x;
   var dy = enemy.y - biscuit.y;
   var gap = Math.sqrt(dx * dx + dy * dy);
@@ -72,7 +100,7 @@ function chaseOffEnemy(enemy) {
   state.fleeing.push(enemy);
 
   sparkle(enemy.x, enemy.y - 30, '#f0b429');
-  say(CONFIG.BISCUIT_WORDS.chasedOff + ' ' + enemy.name + '!');
+  say('💨 ' + biscuit.name + ' ' + CONFIG.BISCUIT_WORDS.chasedOff + ' ' + enemy.name + '!');
   ENGINE.sound('sell');
 
   if (state.enemies.length === 0) {

@@ -34,10 +34,14 @@ function drawDayEndScreen() {
   ENGINE.drawText('🌙  Day ' + state.day + ' Survived!', W / 2, 156, 28, CONFIG.COLOURS.ink);
 
   var rows = [['🐾 Grooms today', state.dayStats.grooms]];
-  var friend = followerCat();
-  if (friend) {
-    rows.push(['💚 ' + friend.name + "'s health", Math.round(friend.health)]);
+
+  /* One line per cat fighting for you — Biscuit, and Big Tony once he's
+     changed sides. */
+  var friends = fightingCats();
+  for (var f = 0; f < friends.length; f++) {
+    rows.push(['💚 ' + friends[f].name + "'s health", Math.round(friends[f].health)]);
   }
+
   rows.push(['💨 Furballs dodged', state.dodged]);
   rows.push(['💥 Hits taken today', state.dayHits]);
   rows.push(['❤️ Grandma’s HP', Math.round(state.grandma.hp) + ' / ' + CONFIG.GRANDMA.maxHp]);
@@ -49,8 +53,14 @@ function drawDayEndScreen() {
     y += 32;
   }
 
-  ENGINE.drawText('A good night’s rest heals everyone up a little before tomorrow’s bigger wave.',
-                  W / 2, y + 20, 14, CONFIG.COLOURS.inkSoft, 'center', 'normal');
+  /* Anything to say about Big Tony? */
+  var tonyLine = 'A good night’s rest heals everyone up a little before tomorrow’s bigger wave.';
+  if (state.tonyRecruited) {
+    tonyLine = CONFIG.BOSS_WORDS.joins;
+  } else if (state.tonyOutThere) {
+    tonyLine = CONFIG.BOSS_WORDS.escaped;
+  }
+  ENGINE.drawText(tonyLine, W / 2, y + 20, 14, CONFIG.COLOURS.inkSoft, 'center', 'normal');
 
   pulsingPrompt(CONFIG.TEXT.dayEndPrompt, y + 66);
 }
@@ -85,10 +95,12 @@ function drawSeasonEnd() {
 
   var left = 230;
   var y = 232;
-  var friend = followerCat();
-  if (friend) {
-    ENGINE.drawText('💚 ' + friend.name + "'s health at the end", left, y, 17, CONFIG.COLOURS.ink, 'left', 'normal');
-    ENGINE.drawText(String(Math.round(friend.health)), W - left, y, 19, CONFIG.COLOURS.ink, 'right');
+  var friends = fightingCats();
+  for (var f = 0; f < friends.length; f++) {
+    ENGINE.drawText('💚 ' + friends[f].name + "'s health at the end", left, y, 17,
+                    CONFIG.COLOURS.ink, 'left', 'normal');
+    ENGINE.drawText(String(Math.round(friends[f].health)), W - left, y, 19,
+                    CONFIG.COLOURS.ink, 'right');
     y += 32;
   }
 

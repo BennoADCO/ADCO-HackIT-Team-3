@@ -10,8 +10,18 @@ function updateDayClock(dt) {
   state.dayTime += dt;
   if (state.dayTime < CONFIG.DAY_LENGTH_SECONDS) { return; }
 
+  /* The clock ran out. If Big Tony is still on his feet, he escapes —
+     and he'll be back with the next wave. */
+  noteBossEscaped();
+
+  endDayEarly();
+}
+
+/* Wraps up today, whether the clock ran out or Big Tony went down early. */
+function endDayEarly() {
   state.dayTime = CONFIG.DAY_LENGTH_SECONDS;
   state.action = null;
+  state.bossCelebrate = 0;
 
   if (state.day >= CONFIG.DAYS_IN_SEASON) {
     finishSeason();
@@ -26,6 +36,7 @@ function startNextDay() {
   state.dayTime = 0;
   state.dayStats = freshDayStats();
   state.dayHits = 0;
+  state.bossCelebrate = 0;
   resetHorseForDay();   // a new day, a new pointless horse
 
   /* A good night's rest does everybody good — Biscuit, and Grandma too,
@@ -39,7 +50,21 @@ function startNextDay() {
 
   spawnWave(state.day);
   state.screen = 'playing';
-  say('Day ' + state.day + ' — ' + state.enemies.length + ' cats this time!');
+  say(dayOpeningMessage());
+}
+
+/* What the message bubble says as a new day starts. */
+function dayOpeningMessage() {
+  var boss = bossOnScreen();
+
+  /* Boss day — he's on his own, so make a proper fuss of it. */
+  if (boss && state.enemies.length === 1) {
+    return CONFIG.BOSS_WORDS.arrives;
+  }
+  if (boss) {
+    return CONFIG.BOSS_WORDS.backAgain + ' ' + state.enemies.length + ' cats today.';
+  }
+  return 'Day ' + state.day + ' — ' + state.enemies.length + ' cats this time!';
 }
 
 function finishSeason() {

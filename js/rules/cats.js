@@ -35,14 +35,17 @@ function makeFollowerCat(recipe) {
   return cat;
 }
 
-/* Trot towards Grandma, and stop once close enough. */
+/* Trot towards Grandma, and stop once close enough. Big Tony keeps a bit
+   further back than Biscuit, so the two of them don't jostle. */
 function followGrandma(cat, dt) {
+  var wanted = cat.followGap || CONFIG.FOLLOW_GAP;
+
   var dx = state.grandma.x - cat.x;
   var dy = state.grandma.y - cat.y;
   var gap = Math.sqrt(dx * dx + dy * dy);
-  if (gap <= CONFIG.FOLLOW_GAP) { return; }
+  if (gap <= wanted) { return; }
 
-  var step = Math.min(CONFIG.FOLLOW_SPEED * dt, gap - CONFIG.FOLLOW_GAP);
+  var step = Math.min(CONFIG.FOLLOW_SPEED * dt, gap - wanted);
   cat.x += (dx / gap) * step;
   cat.y += (dy / gap) * step;
 }
@@ -94,12 +97,15 @@ function updateCat(cat, dt) {
    the same spot look like one cat with too many ears and you can't read
    their names. This nudges any overlapping pair gently apart. */
 function keepCatsApart() {
-  var minimumGap = CONFIG.CAT_MINIMUM_GAP;
-
   for (var a = 0; a < state.cats.length; a++) {
     for (var b = a + 1; b < state.cats.length; b++) {
       var one = state.cats[a];
       var two = state.cats[b];
+
+      /* Two cats both trotting after Grandma get to stand closer together
+         than two cats pottering about the rug would. */
+      var bothFollowing = one.followsGrandma && two.followsGrandma;
+      var minimumGap = bothFollowing ? CONFIG.FOLLOWER_MINIMUM_GAP : CONFIG.CAT_MINIMUM_GAP;
 
       var dx = two.x - one.x;
       var dy = two.y - one.y;

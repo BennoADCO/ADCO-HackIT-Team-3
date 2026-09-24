@@ -29,14 +29,32 @@ and see if she comes out the other side still standing.
    day. Walk Grandma towards the enemies to get Biscuit in range — risky,
    but it thins out the furballs. (Chasing cats off doesn't add to score.)
 
+## Day 5 — the Big Tony boss fight 😼👑
+
+- On **Day 5** no wave turns up. Instead one enormous cat does: **Big
+  Tony**, twice everyone else's size, with a crown and a great red health
+  bar across the top of the screen.
+- He throws a **fan of three big furballs** at a time, so you can't just
+  stand still and out-wait him.
+- It takes **12 Biscuit swipes** to knock him down — so you have to keep
+  walking Grandma into range and back out again.
+- Knock him down and he **changes sides**. He gets up as one of Grandma's
+  cats, trots after her, and swipes at the enemy for the rest of the
+  season. His swipes are slower than Biscuit's but count **double**.
+- Beat him and **Day 5 ends there and then**, a couple of seconds after
+  the "HE'S JOINED YOU" moment.
+- **Miss the window and he gets away** — and then he turns up in *every*
+  later wave until he's finally beaten. The damage already done to him is
+  remembered from day to day.
+
 ## Win and lose
 
-- A **day** lasts 45 seconds. There are **5 days**, and each one throws a
-  bigger wave of cats than the last.
+- A **day** lasts 45 seconds. There are **21 days**. Days get busier as
+  they go, up to 15 cats at once.
 - Survive a day and Grandma gets a little HP back overnight before the
   next, harder wave arrives.
 - Run out of HP at any point and it's **Game Over**.
-- Survive all 5 days and you **win** — Grandma has seen off the invasion.
+- Survive all 21 days and you **win**.
 - **Score** is the number of furballs successfully dodged. Best score is
   remembered between plays.
 
@@ -51,8 +69,9 @@ and see if she comes out the other side still standing.
 - Grandma's HP bar, a brief flicker of safety right after being hit, and
   a **Game Over** screen if it reaches 0
 - A dodge counter as the score, with a best-ever score remembered
-- 5-day timer with an end-of-day summary, and a **Victory** screen for
-  surviving all 5 days
+- 21-day timer with an end-of-day summary, and a **Victory** screen for
+  surviving the lot
+- A **boss cat on Day 5** who joins your side once he's beaten
 - Cosy generated music, plus a throw sound and a hit sound
 
 ## Nice-To-Have — only once the above is finished and fun
@@ -79,6 +98,7 @@ js/config/      EVERY number and word — these are the ones to fiddle with
   basics.js       day length, and Grandma herself
   enemies.js      the enemy cats: names, speed, furballs, how waves grow
   biscuit.js      how far, how often and how hard Biscuit swipes
+  boss.js         Big Tony: which day, how tough, and how he fights for you
   village.js      colours, trees, flowers, welcome screen
   sound.js        the music and the meows
   words.js        the words on screen

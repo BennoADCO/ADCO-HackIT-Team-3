@@ -124,14 +124,18 @@ function drawCat(cat, nearest) {
     ctx.stroke();
   }
 
+  /* Most cats are the standard size from js/config/cats.js. Big Tony
+     carries his own bigger one (TONY_SIZE in js/config/boss.js). */
+  var size = cat.size || CONFIG.CAT;
+
   var headY = drawVillager({
     emoji: cat.emoji,
     x: cat.x,
     y: cat.y,
     lift: bob,
-    headSize: CONFIG.CAT.headSize,
-    bodyWidth: CONFIG.CAT.bodyWidth,
-    bodyHeight: CONFIG.CAT.bodyHeight,
+    headSize: size.headSize,
+    bodyWidth: size.bodyWidth,
+    bodyHeight: size.bodyHeight,
     bodyColour: cat.colour,
     trimColour: 'rgba(255, 255, 255, 0.45)',
     tail: true
@@ -146,8 +150,12 @@ function drawCat(cat, nearest) {
     ENGINE.drawEmoji('💚', cat.x - 36, headY - 30, 12);
     ENGINE.drawBar(cat.x - 27, headY - 34, 54, 8, cat.health / 100,
                    CONFIG.CAT_HEALTH_BAR_COLOUR, CONFIG.CAT_HEALTH_BAR_EMPTY);
-    ENGINE.fillRound(cat.x - 30, cat.y + 6, 60, 18, 8, 'rgba(255, 250, 240, 0.95)');
-    ENGINE.strokeRound(cat.x - 30, cat.y + 6, 60, 18, 8, CONFIG.COLOURS.panelEdge, 2);
+
+    /* The name tag grows with the name, so a long one like 'Big Tony'
+       isn't chopped off at the ends. */
+    var tag = Math.max(60, cat.name.length * 7 + 18);
+    ENGINE.fillRound(cat.x - tag / 2, cat.y + 6, tag, 18, 8, 'rgba(255, 250, 240, 0.95)');
+    ENGINE.strokeRound(cat.x - tag / 2, cat.y + 6, tag, 18, 8, CONFIG.COLOURS.panelEdge, 2);
     ENGINE.drawText(cat.name, cat.x, cat.y + 15, 11, CONFIG.COLOURS.ink);
     return;
   }
