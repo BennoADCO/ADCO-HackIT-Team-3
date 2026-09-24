@@ -26,6 +26,9 @@ function drawEnemyCat(enemy) {
   /* A little name tag under its feet, so you can tell the types apart. */
   ENGINE.fillRound(enemy.x - 30, enemy.y + 6, 60, 18, 9, 'rgba(255, 250, 240, 0.9)');
   ENGINE.drawText(enemy.name, enemy.x, enemy.y + 15, 10, CONFIG.COLOURS.ink);
+
+  /* How close it is to giving up (see js/drawing/biscuit.js). */
+  drawEnemyHealth(enemy);
 }
 
 function drawFurballs() {

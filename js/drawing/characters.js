@@ -96,7 +96,14 @@ function drawCastAndGrandma() {
     } else if (everything[i].enemy) {
       drawEnemyCat(everything[i].enemy);
     } else {
-      drawCat(everything[i].cat, nearest);
+      /* When Biscuit swipes, it leans towards the enemy for a moment
+         (see js/rules/biscuit.js). This shifts the drawing over. */
+      var c = everything[i].cat;
+      var lean = c.lunge || 0;
+      ctx.save();
+      ctx.translate((c.lungeX || 0) * lean, (c.lungeY || 0) * lean);
+      drawCat(c, nearest);
+      ctx.restore();
     }
   }
 }

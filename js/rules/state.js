@@ -35,6 +35,8 @@ function resetGame() {
 
     enemies: [],
     furballs: [],
+    fleeing: [],      // enemy cats Biscuit has beaten, running off the screen
+    swipes: [],       // Biscuit's claw marks, fading out
     dodged: 0,        // furballs successfully dodged this run — the score
     dayHits: 0,       // times she was hit today, for the end-of-day screen
 

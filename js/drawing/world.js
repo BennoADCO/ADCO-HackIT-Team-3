@@ -11,6 +11,8 @@ function drawWorld() {
   drawPlaza();
   drawScenery();
   drawCastAndGrandma();
+  drawFleeingEnemies();   // beaten cats running off (js/drawing/biscuit.js)
+  drawSwipes();           // Biscuit's claw marks
   drawFurballs();
   drawParticles();
   drawDayTint();

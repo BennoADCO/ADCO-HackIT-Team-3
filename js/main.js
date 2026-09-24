@@ -115,6 +115,9 @@ function updatePlaying(dt) {
   keepEnemiesApart();
   updateFurballs(dt);
 
+  updateBiscuitAttacks(dt);   // Biscuit swipes at nearby enemy cats
+  updateFleeingEnemies(dt);
+
   updateHorse(dt);
 
   updateParticles(dt);

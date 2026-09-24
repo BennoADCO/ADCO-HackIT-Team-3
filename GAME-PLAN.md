@@ -24,6 +24,10 @@ and see if she comes out the other side still standing.
    dodges it clean.
 4. Get hit and she loses HP (shown as a red bar over her head); dodge one
    off the edge of the screen and it counts towards her score.
+5. **Biscuit fights back 🐱💢.** Biscuit automatically swipes at any enemy
+   cat close by. Three swipes and that cat runs off 💨 for the rest of the
+   day. Walk Grandma towards the enemies to get Biscuit in range — risky,
+   but it thins out the furballs. (Chasing cats off doesn't add to score.)
 
 ## Win and lose
 
@@ -59,8 +63,8 @@ and see if she comes out the other side still standing.
 
 ## Not Today — honestly, these will not fit
 
-- **Fighting back.** Grandma dodges only — no aiming, no weapons. Adding
-  an attack means a second control scheme and enemy health bars; cut.
+- **Grandma fighting back.** Grandma still dodges only — no aiming, no
+  weapons. Biscuit does the fighting, automatically, with no extra keys.
 - **The old grooming/knitting economy.** This game replaced it entirely —
   there's no fluff, yarn, shop, or Fashion Show any more.
 - **Multiple rooms / scrolling world.** One screen, always visible.
@@ -74,6 +78,7 @@ css/style.css   the page around the game
 js/config/      EVERY number and word — these are the ones to fiddle with
   basics.js       day length, and Grandma herself
   enemies.js      the enemy cats: names, speed, furballs, how waves grow
+  biscuit.js      how far, how often and how hard Biscuit swipes
   village.js      colours, trees, flowers, welcome screen
   sound.js        the music and the meows
   words.js        the words on screen
