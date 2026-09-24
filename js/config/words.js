@@ -17,7 +17,7 @@ Object.assign(CONFIG, {
   TEXT: {
     startPrompt: 'Press SPACE to open the gate',
     controls: 'Arrow keys or W A S D to walk  ·  SPACE to groom Biscuit  ·  M for music',
-    titleHook: "Keep Biscuit's health up, and dodge the alley cats' furballs.",
+    titleHook: 'Groom your cats to heal them, then dodge the alley cats’ furballs.',
     dayEndPrompt: 'Press SPACE for the next day',
     seasonEndTitle: 'Season complete!',
     seasonEndLine: 'Biscuit made it through the whole season, and so did Grandma.',

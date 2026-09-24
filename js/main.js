@@ -6,8 +6,9 @@
    times a second) it reads the keys, runs the rules, and draws the
    picture.
 
-   The game is always in one of five screens:
+   The game is always in one of six screens:
      'title'     — the front page
+     'tutorial'  — the (completely wrong) platformer tutorial
      'playing'   — actually playing
      'dayEnd'    — the end-of-day summary
      'seasonEnd' — the end of the season, after surviving all five days
@@ -24,6 +25,7 @@
 function startGame() {
   ctx = ENGINE.setupCanvas('game');
   ENGINE.startListening();
+  ENGINE.startListeningToMouse('game');
   resetGame();
   state.screen = 'title';
   ENGINE.startLoop(everyFrame);
@@ -38,8 +40,18 @@ function everyFrame(dt) {
   if (ENGINE.wasPressed('m')) { ENGINE.toggleMute(); }
 
   if (state.screen === 'title') {
-    if (ENGINE.wasPressed(' ', 'enter')) { resetGame(); }
+    if (ENGINE.wasPressed(' ', 'enter') || wasButtonClicked(TITLE_PLAY_BUTTON)) {
+      resetGame();
+    } else if (ENGINE.wasPressed('t') || wasButtonClicked(TITLE_TUTORIAL_BUTTON)) {
+      startTutorial();
+    }
     drawTitleScreen();
+    return;
+  }
+
+  if (state.screen === 'tutorial') {
+    updateTutorial(dt);
+    drawTutorial();
     return;
   }
 

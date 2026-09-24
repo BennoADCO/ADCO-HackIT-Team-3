@@ -144,6 +144,12 @@ Object.assign(CONFIG, {
     buttonShadow: '#3d8c41',
     buttonText: 'PRESS SPACE TO PLAY',
 
+    // The Tutorial button beside it (press T, or click it).
+    tutorialButtonColour: '#4f86d9',
+    tutorialButtonShadow: '#365f9e',
+    tutorialButtonText: 'TUTORIAL (T)',
+    tutorialButtonEmoji: '🎮',
+
     // The little triangle bunting strung across the top.
     buntingColours: ['#ff9fb8', '#ffd35c', '#8fd47a', '#8fc4ef', '#c79bf0'],
 

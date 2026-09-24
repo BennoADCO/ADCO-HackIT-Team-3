@@ -198,6 +198,16 @@ var ENGINE = ENGINE || {};   // join the shared ENGINE toolbox (the first engine
         playTone({ freq: chord[i], duration: 1.1, volume: 0.18,
                    type: 'triangle', attack: 0.08, when: now + i * 0.05 });
       }
+    } else if (name === 'jump') {
+      playTone({ freq: 300, duration: 0.2, volume: 0.2, type: 'square', slideTo: 700, when: now });
+    } else if (name === 'slide') {
+      playTone({ freq: 500, duration: 0.25, volume: 0.18, type: 'sawtooth', slideTo: 120, when: now });
+    } else if (name === 'shoot') {
+      playTone({ freq: 900, duration: 0.08, volume: 0.16, type: 'square', slideTo: 500, when: now });
+    } else if (name === 'bigShoot') {
+      playTone({ freq: 220, duration: 0.35, volume: 0.24, type: 'square', slideTo: 880, when: now });
+    } else if (name === 'bossHit') {
+      playTone({ freq: 160, duration: 0.12, volume: 0.24, type: 'square', slideTo: 90, when: now });
     } else if (name === 'fanfare') {
       var tune = [523, 659, 784, 1046, 784, 1046, 1318];
       for (i = 0; i < tune.length; i++) {
