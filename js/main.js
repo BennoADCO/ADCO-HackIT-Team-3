@@ -82,6 +82,7 @@ function updatePlaying(dt) {
     state.grandma.walking = false;
   } else {
     moveGrandma(dt);
+    keepGrandmaOutOfHorse();   // she has to walk round the horse
 
     var thing = findNearestThing();
     if (ENGINE.wasPressed(' ')) {
@@ -93,6 +94,8 @@ function updatePlaying(dt) {
     updateCat(state.cats[i], dt);
   }
   keepCatsApart();
+
+  updateHorse(dt);
 
   updateParticles(dt);
 

@@ -75,6 +75,9 @@ function drawCatsAndGrandma() {
     everything.push({ y: state.cats[i].y, cat: state.cats[i] });
   }
   everything.push({ y: state.grandma.y, grandma: true });
+  if (isHorseHere()) {
+    everything.push({ y: state.horse.y, horse: true });
+  }
   everything.sort(function (a, b) { return a.y - b.y; });
 
   var nearest = (state.screen === 'playing' && !state.action) ? findNearestThing() : null;
@@ -82,6 +85,8 @@ function drawCatsAndGrandma() {
   for (i = 0; i < everything.length; i++) {
     if (everything[i].grandma) {
       drawGrandma();
+    } else if (everything[i].horse) {
+      drawHorse();
     } else {
       drawCat(everything[i].cat, nearest);
     }
@@ -168,4 +173,21 @@ function drawGrandma() {
                    a.elapsed / a.duration, '#f0b429', 'rgba(255,255,255,0.85)');
     ENGINE.drawEmoji('🐾', state.grandma.x + 30, headY + 6, 20);
   }
+}
+
+/* The random horse. Drawn just like everybody else: a big emoji head on a
+   chunky little body. It does nothing, so there's nothing else to draw. */
+function drawHorse() {
+  var h = CONFIG.HORSE;
+  drawVillager({
+    emoji: h.emoji,
+    x: state.horse.x,
+    y: state.horse.y,
+    lift: -horseLift(),
+    headSize: h.headSize,
+    bodyWidth: h.bodyWidth,
+    bodyHeight: h.bodyHeight,
+    bodyColour: h.bodyColour,
+    tail: true
+  });
 }
