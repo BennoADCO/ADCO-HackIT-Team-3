@@ -16,16 +16,15 @@ Object.assign(CONFIG, {
 
   TEXT: {
     startPrompt: 'Press SPACE to open the gates',
-    controls: 'Arrow keys or W A S D to walk  ·  SPACE to use  ·  M for music',
+    controls: 'Arrow keys or W A S D to walk  ·  SPACE to groom  ·  M for music',
+    titleHook: "Biscuit's health slowly drops. Groom them to keep it up.",
     dayEndPrompt: 'Press SPACE for the next day',
-    showPrompt: 'Press R to run the season again',
+    seasonEndTitle: 'Season complete!',
+    seasonEndLine: 'Biscuit made it through the whole season.',
+    showPrompt: 'Press R to play again',
     gameOverLine: 'Grandma has run out of HP and needs a long lie-down.',
-    needFluff: 'Groom a cat with a ☁️ above its head',
-    needSpin: 'Take your fluff to the 🎡 Spinning Wheel',
-    needKnit: 'Take your yarn to the 🪡 Knitting Nook',
-    needSell: 'Take your knitting to the 🏪 Market Stall',
-    needShop: 'Spend your coins at the 🛋️ Comfort Shop',
-    waiting: 'The coats are growing back — go and say hello to someone'
+    needGroom: 'Stand next to Biscuit and press SPACE to groom',
+    allWell: 'Biscuit is glowing — have a wander'
   }
 
 });

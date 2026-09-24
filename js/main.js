@@ -7,16 +7,16 @@
    picture.
 
    The game is always in one of five screens:
-     'title'    — the front page
-     'playing'  — actually playing
-     'dayEnd'   — the end-of-day summary
-     'show'     — the Fashion Show, at the end of the season
-     'gameOver' — Grandma ran out of HP
+     'title'     — the front page
+     'playing'   — actually playing
+     'dayEnd'    — the end-of-day summary
+     'seasonEnd' — the end of the season
+     'gameOver'  — Grandma ran out of HP
 
    Where everything else lives:
      js/config/      every number and word — the files to fiddle with
      js/engine/      the machinery: pens, keyboard, sound, loop. Rarely touched.
-     js/rules/       WHAT HAPPENS: cats, Grandma, the work, the shop, the days
+     js/rules/       WHAT HAPPENS: cats, Grandma, grooming, the days
      js/drawing/     WHAT IT LOOKS LIKE: the village, the bars, the screens
    ========================================================================== */
 
@@ -49,10 +49,10 @@ function everyFrame(dt) {
     return;
   }
 
-  if (state.screen === 'show') {
+  if (state.screen === 'seasonEnd') {
     if (ENGINE.wasPressed('r', ' ', 'enter')) { resetGame(); }
     drawWorld();
-    drawFashionShow();
+    drawSeasonEnd();
     return;
   }
 
@@ -76,7 +76,7 @@ function updatePlaying(dt) {
 
   var i;
 
-  /* Grandma only moves when she isn't in the middle of a job. */
+  /* Grandma stands still while she grooms. */
   if (state.action) {
     updateAction(dt);
     state.grandma.walking = false;
@@ -86,13 +86,6 @@ function updatePlaying(dt) {
     var thing = findNearestThing();
     if (ENGINE.wasPressed(' ')) {
       tryToStartAction(thing);
-    }
-
-    /* Number keys only do anything while you're standing at the shop. */
-    if (thing && thing.kind === 'station' && thing.station.key === 'shop') {
-      for (i = 0; i < CONFIG.SHOP_ITEMS.length; i++) {
-        if (ENGINE.wasPressed(String(i + 1))) { tryToBuy(i); }
-      }
     }
   }
 

@@ -2,8 +2,7 @@
    CONFIG / VILLAGE.JS  —  THE LOOK OF THE VILLAGE
    ==========================================================================
 
-   Where the four little shops sit, the colours, the trees and flowers,
-   and the welcome screen.
+   The colours, the trees and flowers, and the welcome screen.
 
    Numbers and words only. See js/config/basics.js for how to change
    things without breaking them.
@@ -12,26 +11,6 @@
 var CONFIG = CONFIG || {};   // join the shared settings (the first settings file to load creates it)
 
 Object.assign(CONFIG, {
-
-  /* ------------------------------------------------------------------
-     THE FOUR LITTLE SHOPS
-     ------------------------------------------------------------------
-     Each one is drawn as a small building with a coloured roof.
-     'x' and 'y' are where the building sits on screen.
-     ------------------------------------------------------------------ */
-
-  STATIONS: [
-    { key: 'spin',  emoji: '🎡', label: 'Spinning Wheel', hint: 'fluff into yarn',
-      roof: '#e8836b', x: 132, y: 186 },
-    { key: 'knit',  emoji: '🪡', label: 'Knitting Nook',  hint: 'yarn into things',
-      roof: '#7fb0e0', x: 768, y: 186 },
-    { key: 'sell',  emoji: '🏪', label: 'Market Stall',   hint: 'sell your knitting',
-      roof: '#f0b45c', x: 768, y: 436 },
-    { key: 'shop',  emoji: '🛋️', label: 'Comfort Shop',   hint: 'spoil the cats',
-      roof: '#8fcf72', x: 132, y: 436 }
-  ],
-  STATION_SIZE: 40,
-
 
   /* ------------------------------------------------------------------
      THE LOOK OF THE VILLAGE
@@ -114,10 +93,9 @@ Object.assign(CONFIG, {
 
   TITLE: {
     chips: [
+      { emoji: '🚶', label: 'Walk',  fill: '#ddeeff', edge: '#8fc0ea' },
       { emoji: '🐾', label: 'Groom', fill: '#ffe3ee', edge: '#f2a2c0' },
-      { emoji: '🎡', label: 'Spin',  fill: '#ede2ff', edge: '#bda4ef' },
-      { emoji: '🪡', label: 'Knit',  fill: '#ddeeff', edge: '#8fc0ea' },
-      { emoji: '🪙', label: 'Sell',  fill: '#fff0cf', edge: '#efc55f' }
+      { emoji: '💚', label: 'Heal',  fill: '#e2f5de', edge: '#8fd47a' }
     ],
 
     // The big "press space" button.
@@ -129,7 +107,7 @@ Object.assign(CONFIG, {
     buntingColours: ['#ff9fb8', '#ffd35c', '#8fd47a', '#8fc4ef', '#c79bf0'],
 
     // Things that drift gently up the background.
-    floaters: ['🧶', '✨', '🐾', '🧵', '🧣', '☁️'],
+    floaters: ['💚', '✨', '🐾', '🐱', '💖', '☁️'],
     floaterCount: 16,
 
     // The colours of the big title lettering.

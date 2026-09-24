@@ -17,18 +17,17 @@ Object.assign(CONFIG, {
      CAT HEALTH — the green bar under each cat's name
      ------------------------------------------------------------------
      Health runs from 0 (very poorly) to 100 (glowing with health).
-     It slowly drips downwards unless you look after them.
-     A healthier cat grows better fluff.
+     It slowly drips downwards unless you groom them.
 
-     'fluffValue'  multiplies how much fluff you get.
-     'rareChance'  multiplies the odds of magical fur (see RARITIES below).
+     'min' is the lowest health that still counts as that mood.
+     The mood name shows in the bottom bar when you stand next to a cat.
      ------------------------------------------------------------------ */
 
   HEALTH_TIERS: [
-    { name: 'Poorly',  emoji: '🤒', min: 0,  fluffValue: 0.5, rareChance: 0.25 },
-    { name: 'Okay',    emoji: '😺', min: 30, fluffValue: 1.0, rareChance: 1.0  },
-    { name: 'Healthy', emoji: '😸', min: 62, fluffValue: 1.5, rareChance: 2.2  },
-    { name: 'Glowing', emoji: '😻', min: 88, fluffValue: 2.0, rareChance: 4.0  }
+    { name: 'Poorly',  emoji: '🤒', min: 0  },
+    { name: 'Okay',    emoji: '😺', min: 30 },
+    { name: 'Healthy', emoji: '😸', min: 62 },
+    { name: 'Glowing', emoji: '😻', min: 88 }
   ],
 
   // The colour of the health bar under every cat, and the grey behind it.
@@ -38,9 +37,6 @@ Object.assign(CONFIG, {
   // How fast health drips away, in health-points per second, before personality.
   HEALTH_DECAY_PER_SECOND: 2.4,
 
-  // How fast a cat regrows its fluff, in seconds for a full coat.
-  FLUFF_REGROW_SECONDS: 9,
-
 
   /* ------------------------------------------------------------------
      PERSONALITIES
@@ -48,42 +44,39 @@ Object.assign(CONFIG, {
      Every cat has one. This is where the character comes from.
 
      healthDecay   1 is normal. 2 means its health drops twice as fast.
-     fluffPerGroom how many balls of fluff a single grooming gives
-     regrowSpeed   1 is normal. 0.5 means its coat takes twice as long.
      groomJoy      1 is normal. 2 means grooming heals it twice as much.
-     rareBonus     1 is normal. 2 means twice as likely to grow magic fur.
      ------------------------------------------------------------------ */
 
   PERSONALITIES: {
     lazy: {
       name: 'Lazy', emoji: '😴',
       blurb: 'Enormous coat. Cannot be hurried.',
-      healthDecay: 0.5, fluffPerGroom: 2, regrowSpeed: 0.55, groomJoy: 1.0, rareBonus: 1.0
+      healthDecay: 0.5, groomJoy: 1.0
     },
     playful: {
       name: 'Playful', emoji: '🧸',
-      blurb: 'Gets bored fast. Buy the Toy Basket.',
-      healthDecay: 2.0, fluffPerGroom: 1, regrowSpeed: 1.2, groomJoy: 1.2, rareBonus: 1.2
+      blurb: 'Gets bored fast.',
+      healthDecay: 2.0, groomJoy: 1.2
     },
     diva: {
       name: 'Diva', emoji: '💅',
-      blurb: 'Grows the finest fur. Knows it.',
-      healthDecay: 1.9, fluffPerGroom: 1, regrowSpeed: 1.0, groomJoy: 1.0, rareBonus: 2.6
+      blurb: 'Needs constant attention. Knows it.',
+      healthDecay: 1.9, groomJoy: 1.0
     },
     curious: {
       name: 'Curious', emoji: '🔍',
       blurb: 'Feels better whenever Grandma is nearby.',
-      healthDecay: 1.0, fluffPerGroom: 1, regrowSpeed: 1.1, groomJoy: 1.0, rareBonus: 1.3
+      healthDecay: 1.0, groomJoy: 1.0
     },
     mischievous: {
       name: 'Mischievous', emoji: '😼',
-      blurb: 'Fast-growing coat. Occasionally steals yarn.',
-      healthDecay: 1.1, fluffPerGroom: 1, regrowSpeed: 1.6, groomJoy: 1.1, rareBonus: 1.1
+      blurb: 'Never sits still for long.',
+      healthDecay: 1.1, groomJoy: 1.1
     },
     affectionate: {
       name: 'Affectionate', emoji: '🥰',
       blurb: 'A cuddle goes a very long way.',
-      healthDecay: 1.2, fluffPerGroom: 1, regrowSpeed: 1.0, groomJoy: 2.4, rareBonus: 1.0
+      healthDecay: 1.2, groomJoy: 2.4
     }
   },
 
@@ -91,9 +84,6 @@ Object.assign(CONFIG, {
   // health per second it gains while she's there.
   CURIOUS_RANGE: 130,
   CURIOUS_HEALTH_PER_SECOND: 4,
-
-  // A mischievous cat tries to pinch a ball of yarn this often (seconds).
-  MISCHIEF_EVERY_SECONDS: 26,
 
 
   /* ------------------------------------------------------------------
@@ -117,17 +107,6 @@ Object.assign(CONFIG, {
   FOLLOW_GAP: 58,             // how close (in dots) Biscuit gets before stopping
   FOLLOW_SPEED: 250,          // dots per second. Grandma walks at 270.
 
-  // The pool that adopted cats are drawn from, in order.
-  ADOPTABLE_CATS: [
-    { name: 'Marmalade', emoji: '🐈', colour: '#f3a552', personality: 'playful' },
-    { name: 'Purlie',    emoji: '😽', colour: '#d8c3e8', personality: 'curious' },
-    { name: 'Crumpet',   emoji: '😸', colour: '#e8d2a8', personality: 'lazy' },
-    { name: 'Tinsel',    emoji: '😻', colour: '#cfe4f2', personality: 'diva' },
-    { name: 'Noodle',    emoji: '🐱', colour: '#f7ddc2', personality: 'playful' },
-    { name: 'Waffle',    emoji: '😺', colour: '#d9a870', personality: 'affectionate' },
-    { name: 'Socks',     emoji: '😼', colour: '#9aa3a8', personality: 'mischievous' },
-    { name: 'Casta',     emoji: '🐈', colour: '#c9b39a', personality: 'curious' }
-  ],
 
   // The patch of ground the cats wander around in.
   // These numbers are where their FEET go, not their heads.

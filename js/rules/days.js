@@ -2,8 +2,8 @@
    RULES / DAYS.JS  —  THE PASSING OF THE DAY
    ==========================================================================
 
-   The day clock, the good night's sleep between days, and the medal you
-   win at the Fashion Show.
+   The day clock, the good night's sleep between days, and the end of
+   the season.
    ========================================================================== */
 
 function updateDayClock(dt) {
@@ -30,26 +30,12 @@ function startNextDay() {
   for (var i = 0; i < state.cats.length; i++) {
     state.cats[i].health = ENGINE.clamp(
       state.cats[i].health + CONFIG.OVERNIGHT_HEALTH_RECOVERY, 0, 100);
-    state.cats[i].fluff = 1;
   }
 
   state.screen = 'playing';
 }
 
 function finishSeason() {
-  state.screen = 'show';
-  state.beatBest = state.prestige > state.bestScore;
-  if (state.beatBest) {
-    state.bestScore = state.prestige;
-    ENGINE.saveBestScore(state.prestige);
-  }
+  state.screen = 'seasonEnd';
   ENGINE.sound('fanfare');
-}
-
-function medalFor(score) {
-  var best = CONFIG.MEDALS[0];
-  for (var i = 0; i < CONFIG.MEDALS.length; i++) {
-    if (score >= CONFIG.MEDALS[i].min) { best = CONFIG.MEDALS[i]; }
-  }
-  return best;
 }
