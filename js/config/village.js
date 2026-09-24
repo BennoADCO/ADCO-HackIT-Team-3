@@ -2,8 +2,7 @@
    CONFIG / VILLAGE.JS  —  THE LOOK OF THE VILLAGE
    ==========================================================================
 
-   Where the four little shops sit, the colours, the trees and flowers,
-   and the welcome screen.
+   The colours, the trees and flowers, and the welcome screen.
 
    Numbers and words only. See js/config/basics.js for how to change
    things without breaking them.
@@ -12,26 +11,6 @@
 var CONFIG = CONFIG || {};   // join the shared settings (the first settings file to load creates it)
 
 Object.assign(CONFIG, {
-
-  /* ------------------------------------------------------------------
-     THE FOUR LITTLE SHOPS
-     ------------------------------------------------------------------
-     Each one is drawn as a small building with a coloured roof.
-     'x' and 'y' are where the building sits on screen.
-     ------------------------------------------------------------------ */
-
-  STATIONS: [
-    { key: 'spin',  emoji: '🎡', label: 'Spinning Wheel', hint: 'fluff into yarn',
-      roof: '#e8836b', x: 132, y: 186 },
-    { key: 'knit',  emoji: '🪡', label: 'Knitting Nook',  hint: 'yarn into things',
-      roof: '#7fb0e0', x: 768, y: 186 },
-    { key: 'sell',  emoji: '🏪', label: 'Market Stall',   hint: 'sell your knitting',
-      roof: '#f0b45c', x: 768, y: 436 },
-    { key: 'shop',  emoji: '🛋️', label: 'Comfort Shop',   hint: 'spoil the cats',
-      roof: '#8fcf72', x: 132, y: 436 }
-  ],
-  STATION_SIZE: 40,
-
 
   /* ------------------------------------------------------------------
      THE LOOK OF THE VILLAGE
@@ -106,6 +85,46 @@ Object.assign(CONFIG, {
   ],
 
   /* ------------------------------------------------------------------
+     THE RANDOM HORSE
+     ------------------------------------------------------------------
+     Once a day, at a random moment, a horse wanders in from the edge of
+     the screen, stands about doing nothing, then wanders off again.
+     It has no purpose. Grandma can't walk through it — she has to go
+     round. Cats don't care and walk straight through it.
+     All times are in seconds.
+     ------------------------------------------------------------------ */
+
+  HORSE: {
+    emoji: '🐴',
+    headSize: 50,
+    bodyWidth: 48,
+    bodyHeight: 30,
+    bodyColour: '#a86f45',     // a nice chestnut brown
+
+    // It turns up somewhere between these two times after the day starts.
+    arriveEarliest: 5,
+    arriveLatest: 40,
+
+    // How long it stands around once it gets there.
+    staySeconds: 20,
+
+    // How fast it ambles in and out, in dots per second.
+    walkSpeed: 60,
+
+    // Every so often it does a tiny hop, just to show it's alive.
+    fidgetEverySeconds: 3,
+    fidgetHeight: 6,
+
+    // How close Grandma can get before she bumps into it.
+    // Bigger = a bigger horse-shaped wall.
+    bumpDistance: 34,
+
+    // The patch of grass it picks a random spot inside to stand on.
+    standArea: { left: 250, right: 650, top: 230, bottom: 480 }
+  },
+
+
+  /* ------------------------------------------------------------------
      THE WELCOME SCREEN
      ------------------------------------------------------------------
      The front page. 'chips' are the little coloured pills that show the
@@ -114,10 +133,9 @@ Object.assign(CONFIG, {
 
   TITLE: {
     chips: [
+      { emoji: '🚶', label: 'Walk',  fill: '#ddeeff', edge: '#8fc0ea' },
       { emoji: '🐾', label: 'Groom', fill: '#ffe3ee', edge: '#f2a2c0' },
-      { emoji: '🎡', label: 'Spin',  fill: '#ede2ff', edge: '#bda4ef' },
-      { emoji: '🪡', label: 'Knit',  fill: '#ddeeff', edge: '#8fc0ea' },
-      { emoji: '🪙', label: 'Sell',  fill: '#fff0cf', edge: '#efc55f' }
+      { emoji: '💚', label: 'Heal',  fill: '#e2f5de', edge: '#8fd47a' }
     ],
 
     // The big "press space" button.
@@ -135,7 +153,7 @@ Object.assign(CONFIG, {
     buntingColours: ['#ff9fb8', '#ffd35c', '#8fd47a', '#8fc4ef', '#c79bf0'],
 
     // Things that drift gently up the background.
-    floaters: ['🧶', '✨', '🐾', '🧵', '🧣', '☁️'],
+    floaters: ['💚', '✨', '🐾', '🐱', '💖', '☁️'],
     floaterCount: 16,
 
     // The colours of the big title lettering.

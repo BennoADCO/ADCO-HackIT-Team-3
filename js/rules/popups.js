@@ -2,7 +2,7 @@
    RULES / POPUPS.JS  —  LITTLE FLOATING NUMBERS AND MESSAGES
    ==========================================================================
 
-   The "+2 fluff" numbers that float up and fade, the sparkle bursts, and
+   The "+25 💚" numbers that float up and fade, the sparkle bursts, and
    the message bubble along the top.
    ========================================================================== */
 

@@ -2,7 +2,7 @@
    DRAWING / WORLD.JS  —  THE VILLAGE
    ==========================================================================
 
-   The grass, the plaza, the trees and flowers, the four little shops,
+   The grass, the plaza, the trees and flowers,
    the floating numbers, and the sunrise-to-sunset tint.
    ========================================================================== */
 
@@ -10,7 +10,6 @@ function drawWorld() {
   drawGrass();
   drawPlaza();
   drawScenery();
-  drawStations();
   drawCatsAndGrandma();
   drawParticles();
   drawDayTint();
@@ -112,46 +111,6 @@ function drawFlower(x, y, colour) {
     ENGINE.ellipse(x + Math.cos(angle) * 5, y + Math.sin(angle) * 5, 4, 4, colour);
   }
   ENGINE.ellipse(x, y, 2.6, 2.6, '#fff4c2');
-}
-
-/* --- The four little shops -----------------------------------------------
-   Each one is a cream building with a coloured roof and a sign.
-   ------------------------------------------------------------------------ */
-
-function drawStations() {
-  var nearest = (state.screen === 'playing' && !state.action) ? findNearestThing() : null;
-
-  for (var i = 0; i < CONFIG.STATIONS.length; i++) {
-    var s = CONFIG.STATIONS[i];
-    var lit = nearest && nearest.kind === 'station' && nearest.station.key === s.key;
-
-    var wallLeft = s.x - 70;
-    var wallTop = s.y - 24;
-    var wallWidth = 140;
-    var wallHeight = 78;
-
-    ENGINE.drawShadow(s.x, s.y + wallHeight - 22, 74, 13);
-
-    /* The roof, slightly wider than the walls so it overhangs. */
-    ENGINE.fillRound(s.x - 80, s.y - 56, 160, 38, 13, s.roof);
-    ENGINE.fillRound(s.x - 80, s.y - 30, 160, 14, 7, ENGINE.shade(s.roof, -28));
-
-    /* The walls. */
-    ENGINE.fillRound(wallLeft, wallTop, wallWidth, wallHeight, 12, CONFIG.COLOURS.panel);
-    ENGINE.strokeRound(wallLeft, wallTop, wallWidth, wallHeight, 12,
-                       lit ? '#f0b429' : CONFIG.COLOURS.panelEdge, lit ? 5 : 3);
-
-    /* The sign in the window, then the name plate. */
-    ENGINE.drawEmoji(s.emoji, s.x, s.y + 4, CONFIG.STATION_SIZE);
-    ENGINE.drawText(s.label, s.x, s.y + 32, 13, CONFIG.COLOURS.ink);
-    ENGINE.drawText(s.hint, s.x, s.y + 45, 10, CONFIG.COLOURS.inkSoft, 'center', 'normal');
-
-    /* The shop advertises its keys so nobody has to be told twice. */
-    if (s.key === 'shop' && lit) {
-      ENGINE.fillRound(s.x - 44, s.y - 82, 88, 22, 11, '#5d4733');
-      ENGINE.drawText('press 1 - 4', s.x, s.y - 71, 12, '#ffd24a');
-    }
-  }
 }
 
 function drawParticles() {

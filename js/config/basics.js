@@ -1,16 +1,14 @@
 /* ==========================================================================
-   CONFIG / BASICS.JS  —  DAYS, GRANDMA AND THE WORK
+   CONFIG / BASICS.JS  —  DAYS, GRANDMA AND GROOMING
    ==========================================================================
 
    Every file in js/config/ is nothing but numbers and words. Nothing
    happens in these files — they just write down what the game should use.
 
    THESE ARE THE FILES TO CHANGE if you want the game to feel different:
-     basics.js    how long a day is, Grandma, how long each job takes
+     basics.js    how long a day is, Grandma, grooming
      cats.js      the cats: names, personalities, health
-     knitting.js  magic fur, what Grandma knits, the Fashion Show medals
-     shop.js      the Comfort Shop: prices and what the upgrades do
-     village.js   the look: colours, shops, trees, flowers, welcome screen
+     village.js   the look: colours, trees, flowers, welcome screen
      sound.js     the music and the meows
      words.js     the words on screen
 
@@ -32,7 +30,7 @@ Object.assign(CONFIG, {
      ------------------------------------------------------------------ */
 
   GAME_TITLE: "Grandma's Purradise",
-  GAME_SUBTITLE: 'Fluff in. Fashion out.',
+  GAME_SUBTITLE: 'Keep Biscuit happy.',
 
   // The picture is always this many dots across and down. The browser
   // stretches it to fit the window, so don't worry about screen sizes.
@@ -60,7 +58,7 @@ Object.assign(CONFIG, {
     bodyColour: '#e88aa8',    // her cardigan
     trimColour: '#fff1e0',    // her apron / pinny
     speed: 270,          // dots she travels per second. Higher = faster.
-    reach: 82,           // how close she must get to use a cat or a building
+    reach: 82,           // how close she must get to groom a cat
     startX: 450,
     startY: 360,
 
@@ -73,26 +71,17 @@ Object.assign(CONFIG, {
 
 
   /* ------------------------------------------------------------------
-     THE WORK — how long each job takes and how much it produces
+     GROOMING
      ------------------------------------------------------------------ */
 
-  // Seconds Grandma spends on each job. She can't move while working.
+  // Seconds Grandma spends brushing a cat. She can't move while grooming.
   GROOM_SECONDS: 0.85,
-  SPIN_SECONDS: 1.1,
-  KNIT_SECONDS: 1.4,
-  SELL_SECONDS: 0.9,
 
-  // The processing chain. Fluff becomes yarn, yarn becomes a product.
-  FLUFF_PER_YARN: 3,      // 3 balls of fluff make 1 ball of yarn
-  YARN_PER_PRODUCT: 2,    // 2 balls of yarn make 1 knitted thing
-
-  // Health a cat gets back when you groom it, before its personality is applied.
-  GROOM_HEALTH_BONUS: 14,
+  // Health a cat gets back from one groom, before its personality is applied.
+  // Health goes from 0 to 100, so 25 means about four grooms from empty to full.
+  GROOM_HEALTH_BONUS: 25,
 
   // Cats sleep well. Every cat wakes up with this much more health each morning.
   OVERNIGHT_HEALTH_RECOVERY: 22,
-
-  // Health every cat gets back when you buy something at the Comfort Shop.
-  SHOP_HEALTH_BONUS: 15,
 
 });

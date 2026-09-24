@@ -2,7 +2,7 @@
    RULES / GRANDMA.JS  —  GRANDMA
    ==========================================================================
 
-   Walking her around with the keyboard, and working out what she's
+   Walking her around with the keyboard, and working out which cat she's
    standing next to.
    ========================================================================== */
 
@@ -32,7 +32,6 @@ function moveGrandma(dt) {
   state.grandma.bob += dt * 11;
 }
 
-
 /* ==========================================================================
    GRANDMA'S HP (hit points)
    ==========================================================================
@@ -48,7 +47,6 @@ function hurtGrandma(amount) {
 function isGrandmaOutOfHp() {
   return state.grandma.hp <= 0;
 }
-
 
 /* ==========================================================================
    WHAT GRANDMA IS STANDING NEXT TO
@@ -70,15 +68,6 @@ function findNearestThing() {
     if (d < bestDistance) {
       bestDistance = d;
       best = { kind: 'cat', cat: state.cats[i] };
-    }
-  }
-
-  for (i = 0; i < CONFIG.STATIONS.length; i++) {
-    var s = CONFIG.STATIONS[i];
-    d = ENGINE.distance(state.grandma.x, state.grandma.y, s.x, s.y);
-    if (d < bestDistance) {
-      bestDistance = d;
-      best = { kind: 'station', station: s };
     }
   }
 

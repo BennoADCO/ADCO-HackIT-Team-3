@@ -75,6 +75,9 @@ function drawCatsAndGrandma() {
     everything.push({ y: state.cats[i].y, cat: state.cats[i] });
   }
   everything.push({ y: state.grandma.y, grandma: true });
+  if (isHorseHere()) {
+    everything.push({ y: state.horse.y, horse: true });
+  }
   everything.sort(function (a, b) { return a.y - b.y; });
 
   var nearest = (state.screen === 'playing' && !state.action) ? findNearestThing() : null;
@@ -82,6 +85,8 @@ function drawCatsAndGrandma() {
   for (i = 0; i < everything.length; i++) {
     if (everything[i].grandma) {
       drawGrandma();
+    } else if (everything[i].horse) {
+      drawHorse();
     } else {
       drawCat(everything[i].cat, nearest);
     }
@@ -126,18 +131,10 @@ function drawCat(cat, nearest) {
     ENGINE.drawEmoji('💚', cat.x - 36, headY - 30, 12);
     ENGINE.drawBar(cat.x - 27, headY - 34, 54, 8, cat.health / 100,
                    CONFIG.CAT_HEALTH_BAR_COLOUR, CONFIG.CAT_HEALTH_BAR_EMPTY);
-    if (cat.fluff >= 1) {
-      ENGINE.drawEmoji('☁️', cat.x, headY - 54 + Math.sin(cat.bob * 1.6) * 3, 22);
-    }
     ENGINE.fillRound(cat.x - 30, cat.y + 6, 60, 18, 8, 'rgba(255, 250, 240, 0.95)');
     ENGINE.strokeRound(cat.x - 30, cat.y + 6, 60, 18, 8, CONFIG.COLOURS.panelEdge, 2);
     ENGINE.drawText(cat.name, cat.x, cat.y + 15, 11, CONFIG.COLOURS.ink);
     return;
-  }
-
-  /* A cloud above the head means "ready for a brush". */
-  if (cat.fluff >= 1) {
-    ENGINE.drawEmoji('☁️', cat.x, headY - 24 + Math.sin(cat.bob * 1.6) * 3, 24);
   }
 
   /* A little name tag under its feet, with the green health bar built in. */
@@ -169,11 +166,28 @@ function drawGrandma() {
   ENGINE.drawBar(state.grandma.x - 32, headY - 34, 64, 8,
                  state.grandma.hp / g.maxHp, g.hpBarColour, g.hpBarEmpty);
 
-  /* The bar that fills up while she's busy with a job (sits above the HP). */
+  /* The bar that fills up while she's grooming (sits above the HP). */
   if (state.action) {
     var a = state.action;
     ENGINE.drawBar(state.grandma.x - 34, headY - 50, 68, 10,
                    a.elapsed / a.duration, '#f0b429', 'rgba(255,255,255,0.85)');
-    ENGINE.drawEmoji('🪡', state.grandma.x + 30, headY + 6, 20);
+    ENGINE.drawEmoji('🐾', state.grandma.x + 30, headY + 6, 20);
   }
+}
+
+/* The random horse. Drawn just like everybody else: a big emoji head on a
+   chunky little body. It does nothing, so there's nothing else to draw. */
+function drawHorse() {
+  var h = CONFIG.HORSE;
+  drawVillager({
+    emoji: h.emoji,
+    x: state.horse.x,
+    y: state.horse.y,
+    lift: -horseLift(),
+    headSize: h.headSize,
+    bodyWidth: h.bodyWidth,
+    bodyHeight: h.bodyHeight,
+    bodyColour: h.bodyColour,
+    tail: true
+  });
 }

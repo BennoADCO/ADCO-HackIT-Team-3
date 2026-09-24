@@ -2,8 +2,7 @@
    RULES / CATS.JS  —  THE CATS
    ==========================================================================
 
-   How a cat is made, how its health drips away, how its coat grows back,
-   how it wanders about, and the odd bit of mischief.
+   How a cat is made, how its health drips away, how it wanders about.
    ========================================================================== */
 
 function makeCat(recipe) {
@@ -24,9 +23,7 @@ function makeCat(recipe) {
     followsGrandma: recipe.followsGrandma === true,
 
     health: 70,
-    fluff: ENGINE.randomBetween(0.3, 1),
-    bob: ENGINE.randomBetween(0, 6),
-    mischiefTimer: CONFIG.MISCHIEF_EVERY_SECONDS
+    bob: ENGINE.randomBetween(0, 6)
   };
 }
 
@@ -60,30 +57,11 @@ function healthTierFor(cat) {
   return best;
 }
 
-/* How much the things you've bought slow down this cat's health dropping. */
-function decayMultiplierFor(cat) {
-  var fx = CONFIG.UPGRADE_EFFECTS;
-  var multiplier = 1;
-
-  if (state.upgrades.toys) {
-    multiplier *= (cat.personalityKey === 'playful')
-      ? fx.toysPlayfulDecay
-      : fx.toysAllDecay;
-  }
-  if (state.upgrades.lounge) {
-    multiplier *= fx.loungeAllDecay;
-  }
-  if (state.upgrades.parlour && cat.personalityKey === 'diva') {
-    multiplier *= fx.parlourDivaDecay;
-  }
-  return multiplier;
-}
-
 function updateCat(cat, dt) {
   var p = cat.personality;
 
   /* --- Health slowly drips away --------------------------------------- */
-  var decay = CONFIG.HEALTH_DECAY_PER_SECOND * p.healthDecay * decayMultiplierFor(cat);
+  var decay = CONFIG.HEALTH_DECAY_PER_SECOND * p.healthDecay;
   cat.health -= decay * dt;
 
   /* --- Curious cats perk up when Grandma is close --------------------- */
@@ -95,21 +73,6 @@ function updateCat(cat, dt) {
   }
 
   cat.health = ENGINE.clamp(cat.health, 0, 100);
-
-  /* --- The coat grows back ------------------------------------------- */
-  if (cat.fluff < 1) {
-    cat.fluff += (p.regrowSpeed / CONFIG.FLUFF_REGROW_SECONDS) * dt;
-    if (cat.fluff > 1) { cat.fluff = 1; }
-  }
-
-  /* --- Mischievous cats pinch the odd ball of yarn -------------------- */
-  if (cat.personalityKey === 'mischievous') {
-    cat.mischiefTimer -= dt;
-    if (cat.mischiefTimer <= 0) {
-      cat.mischiefTimer = CONFIG.MISCHIEF_EVERY_SECONDS;
-      stealYarn(cat);
-    }
-  }
 
   /* --- Pottering about ------------------------------------------------ */
   cat.bob += dt * 3;
@@ -168,16 +131,3 @@ function keepCatsApart() {
   }
 }
 
-/* A mischievous cat takes the cheapest ball of yarn it can find. */
-function stealYarn(cat) {
-  for (var i = 0; i < CONFIG.RARITIES.length; i++) {
-    var key = CONFIG.RARITIES[i].key;
-    if (state.yarn[key] > 0) {
-      state.yarn[key] -= 1;
-      say(cat.emoji + ' ' + cat.name + ' ran off with a ball of yarn!');
-      ENGINE.meow(CONFIG.AUDIO.meowBasePitch * 1.3);
-      addParticle(cat.x, cat.y - 30, '-1 🧶', '#c86a6a', 16);
-      return;
-    }
-  }
-}

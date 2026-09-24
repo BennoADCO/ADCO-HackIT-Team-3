@@ -45,11 +45,10 @@ function drawTitleScreen() {
 
   /* --- The cast, bobbing gently -------------------------------------- */
   var bob = Math.sin(seconds * 2.4) * 3;
-  drawTitleCat(CONFIG.STARTING_CATS[0], 344, 214, bob);
-  drawTitleCat(CONFIG.ADOPTABLE_CATS[0], 556, 214, -bob);
+  drawTitleCat(CONFIG.STARTING_CATS[0], 392, 214, bob);
 
   drawVillager({
-    emoji: CONFIG.GRANDMA.emoji, x: 450, y: 222,
+    emoji: CONFIG.GRANDMA.emoji, x: 498, y: 222,
     lift: -Math.abs(Math.sin(seconds * 2.4)) * 4,
     headSize: 58, bodyWidth: 46, bodyHeight: 44,
     bodyColour: CONFIG.GRANDMA.bodyColour, trimColour: CONFIG.GRANDMA.trimColour
@@ -61,12 +60,11 @@ function drawTitleScreen() {
   ENGINE.drawText(CONFIG.GAME_SUBTITLE, W / 2, 312, 16,
                   CONFIG.COLOURS.inkSoft, 'center', 'normal');
 
-  /* --- The whole game, in four pills --------------------------------- */
+  /* --- The whole game, in three pills --------------------------------- */
   drawLoopChips(W / 2, 356);
 
   /* --- The hook ------------------------------------------------------ */
-  ENGINE.drawText('Happy cats grow magical fur. ' + CONFIG.DAYS_IN_SEASON +
-                  ' days until the Fashion Show.',
+  ENGINE.drawText(CONFIG.TEXT.titleHook,
                   W / 2, 392, 15, CONFIG.COLOURS.ink, 'center', 'normal');
 
   /* --- The buttons -------------------------------------------------- */
@@ -74,12 +72,6 @@ function drawTitleScreen() {
   drawTutorialButton();
 
   /* --- The small print ----------------------------------------------- */
-  if (state.bestScore > 0) {
-    ENGINE.fillRound(W / 2 - 88, 470, 176, 26, 13, '#fbeed2');
-    ENGINE.drawEmoji('🏆', W / 2 - 58, 483, 15);
-    ENGINE.drawText('Best ever  ' + state.bestScore, W / 2 + 12, 484, 14, '#a06a2c');
-  }
-
   ENGINE.drawText(CONFIG.TEXT.controls, W / 2, 512, 13,
                   CONFIG.COLOURS.inkSoft, 'center', 'normal');
 }
@@ -158,7 +150,7 @@ function drawBunting(fromX, toX, y) {
   }
 }
 
-/* The four steps of the game, as coloured pills with arrows between. */
+/* The steps of the game, as coloured pills with arrows between. */
 function drawLoopChips(centreX, y) {
   var chips = CONFIG.TITLE.chips;
   var chipW = 108;
