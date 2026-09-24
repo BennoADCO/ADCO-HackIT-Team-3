@@ -25,6 +25,27 @@ time you use them.
 
 ---
 
+## Always quiz them for more information
+
+Before acting on **any** request — a new idea, a tweak, a number change, a
+bug report — ask two or three short questions to draw out what they
+actually mean. Do this every time, all session, not just at the start.
+Non-coders describe what they want in one sentence and leave out the
+details that decide how it gets built.
+
+- **Make every question concrete, with options to pick from.** "Should the
+  bricks fall faster as the round goes on, or stay the same speed?" — not
+  "how should it work?"
+- **Offer your best guess as the default**, so a quick "yes" keeps things
+  moving.
+- **Ask about what they will see and feel on screen**, never about code.
+- **If their answers raise new questions, ask those too** before you start.
+
+Only start building once they have answered. The one exception is a message
+that is itself the answer to your questions.
+
+---
+
 ## Your first response
 
 Do not start coding, and do not ask a blank "what do you want to build?" —
