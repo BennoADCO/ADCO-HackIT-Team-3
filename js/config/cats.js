@@ -2,7 +2,7 @@
    CONFIG / CATS.JS  —  THE CATS
    ==========================================================================
 
-   Moods, personalities, and the cats themselves.
+   Health, personalities, and the cats themselves.
    >>> STARTING_CATS is the fun one: rename them after people in the office. <<<
 
    Numbers and words only. See js/config/basics.js for how to change
@@ -14,24 +14,29 @@ var CONFIG = CONFIG || {};   // join the shared settings (the first settings fil
 Object.assign(CONFIG, {
 
   /* ------------------------------------------------------------------
-     CAT MOOD
+     CAT HEALTH — the green bar under each cat's name
      ------------------------------------------------------------------
-     Mood runs from 0 (thoroughly unimpressed) to 100 (blissful).
+     Health runs from 0 (very poorly) to 100 (glowing with health).
      It slowly drips downwards unless you look after them.
+     A healthier cat grows better fluff.
 
      'fluffValue'  multiplies how much fluff you get.
      'rareChance'  multiplies the odds of magical fur (see RARITIES below).
      ------------------------------------------------------------------ */
 
-  MOOD_TIERS: [
-    { name: 'Grumpy',   emoji: '😾', min: 0,  colour: '#ef7a6a', fluffValue: 0.5, rareChance: 0.25 },
-    { name: 'Content',  emoji: '😺', min: 30, colour: '#f4c95d', fluffValue: 1.0, rareChance: 1.0  },
-    { name: 'Happy',    emoji: '😸', min: 62, colour: '#7fcf6b', fluffValue: 1.5, rareChance: 2.2  },
-    { name: 'Blissful', emoji: '😻', min: 88, colour: '#b98bff', fluffValue: 2.0, rareChance: 4.0  }
+  HEALTH_TIERS: [
+    { name: 'Poorly',  emoji: '🤒', min: 0,  fluffValue: 0.5, rareChance: 0.25 },
+    { name: 'Okay',    emoji: '😺', min: 30, fluffValue: 1.0, rareChance: 1.0  },
+    { name: 'Healthy', emoji: '😸', min: 62, fluffValue: 1.5, rareChance: 2.2  },
+    { name: 'Glowing', emoji: '😻', min: 88, fluffValue: 2.0, rareChance: 4.0  }
   ],
 
-  // How fast mood drips away, in mood-points per second, before personality.
-  MOOD_DECAY_PER_SECOND: 2.4,
+  // The colour of the health bar under every cat, and the grey behind it.
+  CAT_HEALTH_BAR_COLOUR: '#3fbf4f',
+  CAT_HEALTH_BAR_EMPTY: 'rgba(0, 0, 0, 0.15)',
+
+  // How fast health drips away, in health-points per second, before personality.
+  HEALTH_DECAY_PER_SECOND: 2.4,
 
   // How fast a cat regrows its fluff, in seconds for a full coat.
   FLUFF_REGROW_SECONDS: 9,
@@ -42,10 +47,10 @@ Object.assign(CONFIG, {
      ------------------------------------------------------------------
      Every cat has one. This is where the character comes from.
 
-     moodDecay     1 is normal. 2 means it gets grumpy twice as fast.
+     healthDecay   1 is normal. 2 means its health drops twice as fast.
      fluffPerGroom how many balls of fluff a single grooming gives
      regrowSpeed   1 is normal. 0.5 means its coat takes twice as long.
-     groomJoy      1 is normal. 2 means grooming cheers it up twice as much.
+     groomJoy      1 is normal. 2 means grooming heals it twice as much.
      rareBonus     1 is normal. 2 means twice as likely to grow magic fur.
      ------------------------------------------------------------------ */
 
@@ -53,39 +58,39 @@ Object.assign(CONFIG, {
     lazy: {
       name: 'Lazy', emoji: '😴',
       blurb: 'Enormous coat. Cannot be hurried.',
-      moodDecay: 0.5, fluffPerGroom: 2, regrowSpeed: 0.55, groomJoy: 1.0, rareBonus: 1.0
+      healthDecay: 0.5, fluffPerGroom: 2, regrowSpeed: 0.55, groomJoy: 1.0, rareBonus: 1.0
     },
     playful: {
       name: 'Playful', emoji: '🧸',
       blurb: 'Gets bored fast. Buy the Toy Basket.',
-      moodDecay: 2.0, fluffPerGroom: 1, regrowSpeed: 1.2, groomJoy: 1.2, rareBonus: 1.2
+      healthDecay: 2.0, fluffPerGroom: 1, regrowSpeed: 1.2, groomJoy: 1.2, rareBonus: 1.2
     },
     diva: {
       name: 'Diva', emoji: '💅',
       blurb: 'Grows the finest fur. Knows it.',
-      moodDecay: 1.9, fluffPerGroom: 1, regrowSpeed: 1.0, groomJoy: 1.0, rareBonus: 2.6
+      healthDecay: 1.9, fluffPerGroom: 1, regrowSpeed: 1.0, groomJoy: 1.0, rareBonus: 2.6
     },
     curious: {
       name: 'Curious', emoji: '🔍',
-      blurb: 'Cheers up whenever Grandma is nearby.',
-      moodDecay: 1.0, fluffPerGroom: 1, regrowSpeed: 1.1, groomJoy: 1.0, rareBonus: 1.3
+      blurb: 'Feels better whenever Grandma is nearby.',
+      healthDecay: 1.0, fluffPerGroom: 1, regrowSpeed: 1.1, groomJoy: 1.0, rareBonus: 1.3
     },
     mischievous: {
       name: 'Mischievous', emoji: '😼',
       blurb: 'Fast-growing coat. Occasionally steals yarn.',
-      moodDecay: 1.1, fluffPerGroom: 1, regrowSpeed: 1.6, groomJoy: 1.1, rareBonus: 1.1
+      healthDecay: 1.1, fluffPerGroom: 1, regrowSpeed: 1.6, groomJoy: 1.1, rareBonus: 1.1
     },
     affectionate: {
       name: 'Affectionate', emoji: '🥰',
       blurb: 'A cuddle goes a very long way.',
-      moodDecay: 1.2, fluffPerGroom: 1, regrowSpeed: 1.0, groomJoy: 2.4, rareBonus: 1.0
+      healthDecay: 1.2, fluffPerGroom: 1, regrowSpeed: 1.0, groomJoy: 2.4, rareBonus: 1.0
     }
   },
 
-  // How close Grandma must be for a Curious cat to perk up, and how much
-  // mood per second it gains while she's there.
+  // How close Grandma must be for a Curious cat to feel better, and how much
+  // health per second it gains while she's there.
   CURIOUS_RANGE: 130,
-  CURIOUS_MOOD_PER_SECOND: 4,
+  CURIOUS_HEALTH_PER_SECOND: 4,
 
   // A mischievous cat tries to pinch a ball of yarn this often (seconds).
   MISCHIEF_EVERY_SECONDS: 26,

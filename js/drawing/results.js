@@ -61,11 +61,29 @@ function drawDayEndScreen() {
 function sleepyNote() {
   var saddest = null;
   for (var i = 0; i < state.cats.length; i++) {
-    if (!saddest || state.cats[i].mood < saddest.mood) { saddest = state.cats[i]; }
+    if (!saddest || state.cats[i].health < saddest.health) { saddest = state.cats[i]; }
   }
   if (!saddest) { return 'The sanctuary is very quiet tonight.'; }
-  if (saddest.mood > 60) { return 'Everybody sleeps soundly. The coats look splendid.'; }
-  return saddest.emoji + ' ' + saddest.name + ' is feeling neglected. Brush them first tomorrow?';
+  if (saddest.health > 60) { return 'Everybody sleeps soundly. The coats look splendid.'; }
+  return saddest.emoji + ' ' + saddest.name + ' is feeling poorly. Brush them first tomorrow?';
+}
+
+/* Grandma has run out of HP. */
+function drawGameOver() {
+  dimBackground(0.7);
+  var W = CONFIG.CANVAS_WIDTH;
+  panel(220, 160, W - 440, 280);
+
+  ENGINE.drawText('💔  GAME OVER  💔', W / 2, 220, 32, '#c0392b');
+  ENGINE.drawText(CONFIG.TEXT.gameOverLine, W / 2, 270, 16,
+                  CONFIG.COLOURS.inkSoft, 'center', 'normal');
+  ENGINE.drawText('🏆 Fashion Show points: ' + state.prestige, W / 2, 320, 18,
+                  CONFIG.COLOURS.ink);
+
+  var pulse = 0.65 + Math.sin(Date.now() / 260) * 0.35;
+  ctx.globalAlpha = pulse;
+  ENGINE.drawText(CONFIG.TEXT.showPrompt, W / 2, 390, 18, '#4f9e52');
+  ctx.globalAlpha = 1;
 }
 
 function drawFashionShow() {

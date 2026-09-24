@@ -70,12 +70,12 @@ function finishAction(a) {
 
 
 /* --- Grooming ------------------------------------------------------------
-   The heart of the game. A happier cat gives more fluff AND is far more
+   The heart of the game. A healthier cat gives more fluff AND is far more
    likely to grow magical fur.
    ------------------------------------------------------------------------ */
 
 function doGroom(cat) {
-  var tier = moodTierFor(cat);
+  var tier = healthTierFor(cat);
   var p = cat.personality;
 
   var amount = Math.round(p.fluffPerGroom * tier.fluffValue);
@@ -87,7 +87,7 @@ function doGroom(cat) {
   state.seasonStats.fluff += amount;
 
   cat.fluff = 0;
-  cat.mood = ENGINE.clamp(cat.mood + CONFIG.GROOM_MOOD_BONUS * p.groomJoy, 0, 100);
+  cat.health = ENGINE.clamp(cat.health + CONFIG.GROOM_HEALTH_BONUS * p.groomJoy, 0, 100);
 
   ENGINE.meow(CONFIG.AUDIO.meowBasePitch * ENGINE.randomBetween(0.82, 1.25));
   addParticle(cat.x, cat.y - 34, '+' + amount + ' ' + fur.emoji, fur.colour, 18);
@@ -100,7 +100,7 @@ function doGroom(cat) {
   }
 }
 
-/* Rolls for magical fur. Mood, personality and the Grooming Parlour all
+/* Rolls for magical fur. Health, personality and the Grooming Parlour all
    push the odds up; plain fur never changes. */
 function rollFur(cat, tier) {
   var boost = tier.rareChance * cat.personality.rareBonus;

@@ -34,6 +34,23 @@ function moveGrandma(dt) {
 
 
 /* ==========================================================================
+   GRANDMA'S HP (hit points)
+   ==========================================================================
+   Nothing hurts her yet. When you want something to, call
+   hurtGrandma(10) from anywhere and she loses 10 HP.
+   If her HP reaches 0, it's game over.
+   ========================================================================== */
+
+function hurtGrandma(amount) {
+  state.grandma.hp = ENGINE.clamp(state.grandma.hp - amount, 0, CONFIG.GRANDMA.maxHp);
+}
+
+function isGrandmaOutOfHp() {
+  return state.grandma.hp <= 0;
+}
+
+
+/* ==========================================================================
    WHAT GRANDMA IS STANDING NEXT TO
    ==========================================================================
    Every frame we work out the single nearest thing within arm's reach.

@@ -28,8 +28,8 @@ function startNextDay() {
 
   /* A good night's sleep does everybody good. */
   for (var i = 0; i < state.cats.length; i++) {
-    state.cats[i].mood = ENGINE.clamp(
-      state.cats[i].mood + CONFIG.OVERNIGHT_MOOD_RECOVERY, 0, 100);
+    state.cats[i].health = ENGINE.clamp(
+      state.cats[i].health + CONFIG.OVERNIGHT_HEALTH_RECOVERY, 0, 100);
     state.cats[i].fluff = 1;
   }
 

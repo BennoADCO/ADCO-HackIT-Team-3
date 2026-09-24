@@ -23,7 +23,13 @@ function resetGame() {
     day: 1,
     dayTime: 0,
 
-    grandma: { x: CONFIG.GRANDMA.startX, y: CONFIG.GRANDMA.startY, bob: 0, walking: false },
+    grandma: {
+      x: CONFIG.GRANDMA.startX,
+      y: CONFIG.GRANDMA.startY,
+      bob: 0,
+      walking: false,
+      hp: CONFIG.GRANDMA.maxHp
+    },
 
     cats: [],
     coins: 0,

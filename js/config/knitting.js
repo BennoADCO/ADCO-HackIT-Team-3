@@ -17,11 +17,11 @@ Object.assign(CONFIG, {
      RARE FUR
      ------------------------------------------------------------------
      'value' is the money and prestige multiplier. A Galaxy scarf is worth
-     eighteen times a plain one, so a single blissful Diva cat can be worth
+     eighteen times a plain one, so a single Glowing Diva cat can be worth
      more than the whole rest of the sanctuary.
 
      'weight' is how likely it is. Bigger = more common. Plain is 100, so
-     Galaxy at 1.2 is very rare — until your cats are blissful.
+     Galaxy at 1.2 is very rare — until your cats are Glowing.
      ------------------------------------------------------------------ */
 
   RARITIES: [

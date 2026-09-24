@@ -39,9 +39,9 @@ function tryToBuy(index) {
   } else {
     state.upgrades[item.key] = true;
     say(item.emoji + ' ' + item.name + ' installed. ' + item.blurb);
-    /* Every cat is immediately a bit more cheerful about the new thing. */
+    /* Every cat is immediately a bit healthier thanks to the new thing. */
     for (var i = 0; i < state.cats.length; i++) {
-      state.cats[i].mood = ENGINE.clamp(state.cats[i].mood + 15, 0, 100);
+      state.cats[i].health = ENGINE.clamp(state.cats[i].health + CONFIG.SHOP_HEALTH_BONUS, 0, 100);
     }
   }
 }

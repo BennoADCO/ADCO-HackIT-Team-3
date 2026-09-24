@@ -89,7 +89,6 @@ function drawCatsAndGrandma() {
 }
 
 function drawCat(cat, nearest) {
-  var tier = moodTierFor(cat);
   var bob = Math.sin(cat.bob) * 1.6;
 
   var isTarget = (nearest && nearest.kind === 'cat' && nearest.cat === cat);
@@ -126,13 +125,12 @@ function drawCat(cat, nearest) {
     ENGINE.drawEmoji('☁️', cat.x, headY - 24 + Math.sin(cat.bob * 1.6) * 3, 24);
   }
 
-  /* A little name tag under its feet, with the mood bar built in.
-     The bar's colour IS the mood, so there's no need to spell it out. */
+  /* A little name tag under its feet, with the green health bar built in. */
   ENGINE.fillRound(cat.x - 33, cat.y + 6, 66, 28, 9, 'rgba(255, 250, 240, 0.95)');
   ENGINE.strokeRound(cat.x - 33, cat.y + 6, 66, 28, 9, CONFIG.COLOURS.panelEdge, 2);
   ENGINE.drawText(cat.name, cat.x, cat.y + 15, 11, CONFIG.COLOURS.ink);
-  ENGINE.drawBar(cat.x - 24, cat.y + 24, 48, 6, cat.mood / 100, tier.colour,
-                 'rgba(0, 0, 0, 0.12)');
+  ENGINE.drawBar(cat.x - 24, cat.y + 24, 48, 6, cat.health / 100,
+                 CONFIG.CAT_HEALTH_BAR_COLOUR, CONFIG.CAT_HEALTH_BAR_EMPTY);
 }
 
 function drawGrandma() {
@@ -151,10 +149,15 @@ function drawGrandma() {
     trimColour: g.trimColour
   });
 
-  /* The bar that fills up while she's busy with a job. */
+  /* Her HP bar, always floating just above her head, with a little heart. */
+  ENGINE.drawEmoji('❤️', state.grandma.x - 42, headY - 30, 14);
+  ENGINE.drawBar(state.grandma.x - 32, headY - 34, 64, 8,
+                 state.grandma.hp / g.maxHp, g.hpBarColour, g.hpBarEmpty);
+
+  /* The bar that fills up while she's busy with a job (sits above the HP). */
   if (state.action) {
     var a = state.action;
-    ENGINE.drawBar(state.grandma.x - 34, headY - 34, 68, 10,
+    ENGINE.drawBar(state.grandma.x - 34, headY - 50, 68, 10,
                    a.elapsed / a.duration, '#f0b429', 'rgba(255,255,255,0.85)');
     ENGINE.drawEmoji('🪡', state.grandma.x + 30, headY + 6, 20);
   }
