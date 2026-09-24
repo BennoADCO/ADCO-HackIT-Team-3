@@ -40,7 +40,7 @@ Object.assign(CONFIG, {
   CANVAS_HEIGHT: 600,
 
   // How long a single day lasts, in seconds, and how many days in a season.
-  DAY_LENGTH_SECONDS: 90,
+  DAY_LENGTH_SECONDS: 45,
   DAYS_IN_SEASON: 5,
 
 
