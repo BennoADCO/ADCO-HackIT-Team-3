@@ -120,6 +120,21 @@ function drawCat(cat, nearest) {
   /* The personality badge, tucked over its shoulder. */
   ENGINE.drawEmoji(cat.personality.emoji, cat.x + 21, headY + 12, 17);
 
+  /* Biscuit (or any cat following Grandma) wears its health bar above
+     its head, like Grandma's HP bar, with just its name underneath. */
+  if (cat.followsGrandma) {
+    ENGINE.drawEmoji('💚', cat.x - 36, headY - 30, 12);
+    ENGINE.drawBar(cat.x - 27, headY - 34, 54, 8, cat.health / 100,
+                   CONFIG.CAT_HEALTH_BAR_COLOUR, CONFIG.CAT_HEALTH_BAR_EMPTY);
+    if (cat.fluff >= 1) {
+      ENGINE.drawEmoji('☁️', cat.x, headY - 54 + Math.sin(cat.bob * 1.6) * 3, 22);
+    }
+    ENGINE.fillRound(cat.x - 30, cat.y + 6, 60, 18, 8, 'rgba(255, 250, 240, 0.95)');
+    ENGINE.strokeRound(cat.x - 30, cat.y + 6, 60, 18, 8, CONFIG.COLOURS.panelEdge, 2);
+    ENGINE.drawText(cat.name, cat.x, cat.y + 15, 11, CONFIG.COLOURS.ink);
+    return;
+  }
+
   /* A cloud above the head means "ready for a brush". */
   if (cat.fluff >= 1) {
     ENGINE.drawEmoji('☁️', cat.x, headY - 24 + Math.sin(cat.bob * 1.6) * 3, 24);

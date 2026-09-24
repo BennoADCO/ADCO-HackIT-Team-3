@@ -105,14 +105,17 @@ Object.assign(CONFIG, {
      'emoji'  is the cat's face.
      'colour' is the colour of its little body.
      Keep the personality names spelled exactly as in PERSONALITIES above.
+     'followsGrandma: true' makes that cat trot along beside Grandma
+     instead of wandering the rug, with its health bar above its head.
      ------------------------------------------------------------------ */
 
   STARTING_CATS: [
-    { name: 'Biscuit',   emoji: '🐱', colour: '#f2c384', personality: 'lazy' },
-    { name: 'Duchess',   emoji: '😻', colour: '#fbf0e2', personality: 'diva' },
-    { name: 'Pickles',   emoji: '😼', colour: '#b6b0ab', personality: 'mischievous' },
-    { name: 'Bobbin',    emoji: '😺', colour: '#f0a15c', personality: 'affectionate' }
+    { name: 'Biscuit', emoji: '🐱', colour: '#f2c384', personality: 'lazy', followsGrandma: true }
   ],
+
+  // How Biscuit keeps up with Grandma.
+  FOLLOW_GAP: 58,             // how close (in dots) Biscuit gets before stopping
+  FOLLOW_SPEED: 250,          // dots per second. Grandma walks at 270.
 
   // The pool that adopted cats are drawn from, in order.
   ADOPTABLE_CATS: [
