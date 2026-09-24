@@ -23,7 +23,15 @@ function makeCat(recipe) {
     followsGrandma: recipe.followsGrandma === true,
 
     health: 70,
-    bob: ENGINE.randomBetween(0, 6)
+    bob: ENGINE.randomBetween(0, 6),
+
+    /* Weapons and armour (js/rules/gear.js). 0 = nothing yet. */
+    weaponLevel: 0,
+    armourLevel: 0,
+
+    /* Knocked out by furballs? (js/rules/knockout.js) */
+    knockedOut: false,
+    safeTimer: 0
   };
 }
 
@@ -73,7 +81,9 @@ function updateCat(cat, dt) {
 
   /* --- Pottering about ------------------------------------------------ */
   cat.bob += dt * 3;
-  if (cat.followsGrandma) {
+  if (cat.knockedOut) {
+    return;   // flat out where it fell, until Grandma grooms it
+  } else if (cat.followsGrandma) {
     followGrandma(cat, dt);
   } else if (cat.pauseTimer > 0) {
     cat.pauseTimer -= dt;

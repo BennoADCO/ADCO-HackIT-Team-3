@@ -36,11 +36,13 @@ and see if she comes out the other side still standing.
   bar across the top of the screen.
 - He throws a **fan of three big furballs** at a time, so you can't just
   stand still and out-wait him.
-- It takes **12 Biscuit swipes** to knock him down — so you have to keep
-  walking Grandma into range and back out again.
+- It takes **12 bare-pawed Biscuit swipes** to knock him down — so you
+  have to keep walking Grandma into range and back out again. Turn up
+  with a weapon from the earlier days and it's a lot quicker.
 - Knock him down and he **changes sides**. He gets up as one of Grandma's
   cats, trots after her, and swipes at the enemy for the rest of the
-  season. His swipes are slower than Biscuit's but count **double**.
+  season. His swipes are slower than Biscuit's but count **double**, and
+  he can be groomed and given gear like any other cat.
 - Beat him and **Day 5 ends there and then**, a couple of seconds after
   the "HE'S JOINED YOU" moment.
 - **Miss the window and he gets away** — and then he turns up in *every*

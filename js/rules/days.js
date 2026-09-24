@@ -7,21 +7,34 @@
    ========================================================================== */
 
 function updateDayClock(dt) {
-  state.dayTime += dt;
-  if (state.dayTime < CONFIG.DAY_LENGTH_SECONDS) { return; }
+  // The clock ticks on, but never past the end of the day.
+  state.dayTime = Math.min(state.dayTime + dt, CONFIG.DAY_LENGTH_SECONDS);
 
-  /* The clock ran out. If Big Tony is still on his feet, he escapes —
-     and he'll be back with the next wave. */
-  noteBossEscaped();
+  /* Every enemy cat chased off? Wait a moment so the player can watch the
+     last one run away — or watch Big Tony get up on Grandma's side — then
+     end the day early. */
+  if (state.enemies.length === 0) {
+    state.clearedFor += dt;
+    if (state.clearedFor >= CONFIG.WAVE_CLEARED_PAUSE_SECONDS) {
+      endDay();
+    }
+    return;
+  }
 
-  endDayEarly();
+  /* Otherwise the day ends when the clock runs out, as a safety net. */
+  if (state.dayTime >= CONFIG.DAY_LENGTH_SECONDS) {
+    endDay();
+  }
 }
 
-/* Wraps up today, whether the clock ran out or Big Tony went down early. */
-function endDayEarly() {
-  state.dayTime = CONFIG.DAY_LENGTH_SECONDS;
+/* The day is over, one way or the other: show the summary, or the
+   season's ending if this was the last day. */
+function endDay() {
   state.action = null;
-  state.bossCelebrate = 0;
+
+  /* Is Big Tony still standing? Then he's escaped for today, and he'll be
+     back with the next wave (js/rules/boss.js). */
+  noteBossEscaped();
 
   if (state.day >= CONFIG.DAYS_IN_SEASON) {
     finishSeason();
@@ -36,7 +49,6 @@ function startNextDay() {
   state.dayTime = 0;
   state.dayStats = freshDayStats();
   state.dayHits = 0;
-  state.bossCelebrate = 0;
   resetHorseForDay();   // a new day, a new pointless horse
 
   /* A good night's rest does everybody good — Biscuit, and Grandma too,
@@ -47,6 +59,12 @@ function startNextDay() {
   }
   state.grandma.hp = ENGINE.clamp(
     state.grandma.hp + CONFIG.OVERNIGHT_HP_RECOVERY, 0, CONFIG.GRANDMA.maxHp);
+  wakeEveryoneOvernight();   // knocked-out cats get back up (js/rules/knockout.js)
+
+  /* Any upgrades left lying about are gone by morning. The gear the
+     cats are already wearing stays on. */
+  state.drops = [];
+  state.gearChoice = null;
 
   spawnWave(state.day);
   state.screen = 'playing';

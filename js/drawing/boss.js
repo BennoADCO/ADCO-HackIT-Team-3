@@ -26,7 +26,7 @@ function drawBossBar() {
   var x = CONFIG.CANVAS_WIDTH / 2 - bar.width / 2;
 
   /* How much fight he has left, from 1 (untouched) down to 0. */
-  var left = 1 - (boss.hitsTaken || 0) / boss.hitsToBeat;
+  var left = 1 - (boss.damageTaken || 0) / boss.hitsToBeat;
   left = ENGINE.clamp(left, 0, 1);
 
   /* A dark plate behind it so it reads over the grass. */
@@ -40,8 +40,9 @@ function drawBossBar() {
   ENGINE.drawText(CONFIG.BOSS.name, CONFIG.CANVAS_WIDTH / 2,
                   bar.y + bar.height / 2 + 1, 15, '#fff6e6');
 
-  /* How many more swipes he needs, spelled out. */
-  var togo = Math.max(0, boss.hitsToBeat - (boss.hitsTaken || 0));
-  ENGINE.drawText(togo + ' more swipes', CONFIG.CANVAS_WIDTH / 2,
+  /* How much more of a beating he needs, spelled out. A bare-pawed swipe
+     from Biscuit does 1; weapons and Big Tony do more. */
+  var togo = Math.max(0, boss.hitsToBeat - (boss.damageTaken || 0));
+  ENGINE.drawText(togo + ' more to go', CONFIG.CANVAS_WIDTH / 2,
                   bar.y + bar.height + 12, 12, '#ffd9a8');
 }

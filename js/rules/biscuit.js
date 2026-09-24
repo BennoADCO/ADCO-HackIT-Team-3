@@ -43,13 +43,17 @@ function updateOneFighter(fighter, dt) {
   fighter.lunge = Math.max(0, fighter.lunge - 90 * dt);
   fighter.swipeTimer -= dt;
 
-  /* No swiping while it's busy being groomed. */
+  /* No swiping while it's busy being groomed, or knocked out. */
   var beingGroomed = state.action && state.action.target === fighter;
-  if (beingGroomed || fighter.swipeTimer > 0) { return; }
+  if (beingGroomed || fighter.knockedOut || fighter.swipeTimer > 0) { return; }
+
+  /* Whatever this cat is holding changes how hard, how often and how far
+     it swipes (see js/config/gear.js). */
+  var weapon = weaponFor(fighter);
 
   /* Find the nearest enemy close enough to reach. */
   var target = null;
-  var targetGap = attack.range;
+  var targetGap = attack.range + weapon.extraReach;
   for (var i = 0; i < state.enemies.length; i++) {
     var gap = ENGINE.distance(fighter.x, fighter.y, state.enemies[i].x, state.enemies[i].y);
     if (gap < targetGap) { target = state.enemies[i]; targetGap = gap; }
@@ -57,24 +61,25 @@ function updateOneFighter(fighter, dt) {
   if (!target) { return; }
 
   /* SWIPE! */
-  fighter.swipeTimer = attack.secondsBetween;
+  fighter.swipeTimer = attack.secondsBetween / weapon.swipeSpeed;
   fighter.lunge = attack.lungeDistance;
   fighter.lungeX = (target.x - fighter.x) / Math.max(targetGap, 1);
   fighter.lungeY = (target.y - fighter.y) / Math.max(targetGap, 1);
 
-  /* Tony's swipes count double — see 'hitsPerSwipe' in js/config/boss.js. */
+  /* Tony's swipes land twice as hard as anyone else's, on top of whatever
+     he's holding — see 'hitsPerSwipe' in js/config/boss.js. */
   var power = attack.hitsPerSwipe || 1;
-  target.hitsTaken = (target.hitsTaken || 0) + power;
+  target.damageTaken = (target.damageTaken || 0) + weapon.damage * power;
 
   state.swipes.push({ x: target.x, y: target.y - 30, life: 0.3, maxLife: 0.3,
                       colour: attack.slashColour });
   addParticle(target.x, target.y - 70, CONFIG.BISCUIT_WORDS.swipe, '#e5484d', 20);
   ENGINE.sound('bossHit');
 
-  /* Big Tony takes far more swipes than an ordinary alley cat. */
+  /* Big Tony takes far more knocking down than an ordinary alley cat. */
   var needed = target.hitsToBeat || CONFIG.ENEMY_HITS_TO_BEAT;
 
-  if (target.hitsTaken >= needed) {
+  if (target.damageTaken >= needed) {
     if (target.isBoss) {
       recruitBigTony(target);   // he changes sides instead of running off
     } else {
@@ -102,6 +107,9 @@ function chaseOffEnemy(enemy, attacker) {
   sparkle(enemy.x, enemy.y - 30, '#f0b429');
   say('💨 ' + biscuit.name + ' ' + CONFIG.BISCUIT_WORDS.chasedOff + ' ' + enemy.name + '!');
   ENGINE.sound('sell');
+
+  /* It might leave a weapon or armour behind (see js/rules/gear.js). */
+  maybeDropGear(enemy.x, enemy.y);
 
   if (state.enemies.length === 0) {
     say(CONFIG.BISCUIT_WORDS.allGone);

@@ -104,6 +104,8 @@ function nextStepHint() {
   if (bossOnScreen()) { return CONFIG.BOSS_WORDS.hint; }
 
   var friend = followerCat();
+  if (friend && friend.knockedOut) { return friend.name + ' ' + CONFIG.KNOCKOUT.words.hint; }
+  if (state.drops.length > 0) { return CONFIG.GEAR_WORDS.dropHint; }
   if (friend && friend.health >= 100) { return CONFIG.TEXT.allWell; }
   if (friend) { return CONFIG.TEXT.needGroom; }
   return CONFIG.TEXT.dodgeHint;

@@ -34,8 +34,11 @@ Object.assign(CONFIG, {
      ------------------------------------------------------------------
      >>> A GOOD ONE TO EDIT. <<< Rename him after somebody in the office.
 
-     'hitsToBeat'      how many Biscuit swipes it takes to knock him down.
-                       A normal alley cat takes 3.
+     'hitsToBeat'      how much of a beating it takes to knock him down.
+                       A normal alley cat takes 3, and a bare-pawed swipe
+                       from Biscuit does 1 — so 12 is twelve swipes, or
+                       far fewer once your cats have picked up weapons
+                       (see js/config/gear.js).
      'fireSeconds'     how often he throws. Smaller = faster.
      'furballsPerThrow' how many furballs come out at once, in a fan.
                        Set this to 1 if the fan is too hard to dodge.
@@ -64,11 +67,7 @@ Object.assign(CONFIG, {
     // How big he is drawn. A normal cat's head is 40.
     headSize: 78,
     bodyWidth: 58,
-    bodyHeight: 42,
-
-    // How long the game pauses on the "HE'S JOINED YOU" moment before the
-    // end-of-day screen appears, in seconds.
-    celebrateSeconds: 2.2
+    bodyHeight: 42
   },
 
 

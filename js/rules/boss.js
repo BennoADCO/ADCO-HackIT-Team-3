@@ -41,9 +41,9 @@ function makeBigTony() {
     fireSeconds: b.fireSeconds,
     fireTimer: 1.6,              // a moment's grace before the first throw
 
-    /* How many swipes he's already taken. He remembers this between days,
-       so chipping away at him over several days eventually works. */
-    hitsTaken: state.tonyHitsTaken || 0,
+    /* How much of a beating he's already taken. He remembers this between
+       days, so chipping away at him over several days eventually works. */
+    damageTaken: state.tonyDamageTaken || 0,
     hitsToBeat: b.hitsToBeat,
 
     wanderSpeed: b.wanderSpeed,
@@ -85,7 +85,7 @@ function recruitBigTony(boss) {
 
   state.tonyRecruited = true;
   state.tonyOutThere = false;
-  state.tonyHitsTaken = 0;
+  state.tonyDamageTaken = 0;
 
   /* He gets up again as one of Grandma's cats, right where he fell. */
   var tony = makeFollowerCat(CONFIG.TONY_JOINS);
@@ -103,22 +103,9 @@ function recruitBigTony(boss) {
   say(CONFIG.BOSS_WORDS.joins);
   ENGINE.sound('fanfare');
 
-  /* If he was the last one standing, hold on the moment for a couple of
-     seconds and then finish the day early. */
-  if (state.enemies.length === 0) {
-    state.bossCelebrate = CONFIG.BOSS.celebrateSeconds;
-  }
-}
-
-/* The little pause after he joins, before the end-of-day screen. */
-function updateBossCelebration(dt) {
-  if (state.bossCelebrate <= 0) { return; }
-
-  state.bossCelebrate -= dt;
-  if (state.bossCelebrate <= 0) {
-    state.bossCelebrate = 0;
-    endDayEarly();
-  }
+  /* If he was the last one standing, the garden is now empty — and the
+     day clock (js/rules/days.js) ends the day a couple of seconds later,
+     which gives everyone time to enjoy the moment. */
 }
 
 
@@ -133,13 +120,13 @@ function noteBossEscaped() {
   if (!boss) { return; }
 
   state.tonyOutThere = true;
-  state.tonyHitsTaken = boss.hitsTaken || 0;
+  state.tonyDamageTaken = boss.damageTaken || 0;
 }
 
 /* Halfway-down taunt, so there's a sense of progress on a long fight. */
 function checkBossWobble(boss) {
   if (boss.saidHalfway) { return; }
-  if (boss.hitsTaken < boss.hitsToBeat / 2) { return; }
+  if ((boss.damageTaken || 0) < boss.hitsToBeat / 2) { return; }
   boss.saidHalfway = true;
   say(CONFIG.BOSS_WORDS.halfway);
 }

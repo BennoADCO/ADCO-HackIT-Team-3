@@ -75,6 +75,11 @@ Object.assign(CONFIG, {
   // "never more than twice as fast as Day 1, however long the season is".
   WAVE_FIRE_SPEEDUP_FLOOR: 0.5,
 
+  // Chase off every enemy cat and the day ends early. This is how many
+  // seconds the game waits first, so you can watch the last one run off.
+  // It's also the pause on the "Big Tony has joined you" moment.
+  WAVE_CLEARED_PAUSE_SECONDS: 2,
+
 
   /* ------------------------------------------------------------------
      FURBALLS

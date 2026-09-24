@@ -11,6 +11,7 @@
 function spawnWave(day) {
   state.enemies = [];
   state.furballs = [];
+  state.clearedFor = 0;   // seconds since the last cat was chased off (see days.js)
 
   /* Boss day: Big Tony turns up on his own, and nobody else does.
      (See js/rules/boss.js.) */
@@ -196,6 +197,12 @@ function updateFurballs(dt) {
         state.furballs.splice(i, 1);
         continue;
       }
+    }
+
+    /* Or did it hit one of the friendly cats? (js/rules/knockout.js) */
+    if (furballHitsCat(f)) {
+      state.furballs.splice(i, 1);
+      continue;
     }
 
     /* Off the edge of the picture, uncaught — a clean dodge. */

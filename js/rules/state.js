@@ -37,14 +37,15 @@ function resetGame() {
     furballs: [],
     fleeing: [],      // enemy cats Biscuit has beaten, running off the screen
     swipes: [],       // Biscuit's claw marks, fading out
+    drops: [],        // weapon and armour upgrades lying on the ground
+    gearChoice: null, // set while the "which cat gets it?" box is open
     dodged: 0,        // furballs successfully dodged this run — the score
     dayHits: 0,       // times she was hit today, for the end-of-day screen
 
     /* Big Tony, the boss cat (js/rules/boss.js). */
     tonyRecruited: false,   // has he been knocked down and joined Grandma?
     tonyOutThere: false,    // did he escape his day and keep coming back?
-    tonyHitsTaken: 0,       // how battered he already is, remembered between days
-    bossCelebrate: 0,       // the little pause after he joins your side
+    tonyDamageTaken: 0,     // how battered he already is, remembered between days
 
     action: null,
     particles: [],

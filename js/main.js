@@ -76,6 +76,17 @@ function everyFrame(dt) {
     return;
   }
 
+  /* Just picked up an upgrade? Everything pauses while you choose which
+     cat gets it (js/rules/gear.js). */
+  if (state.gearChoice) {
+    updateGearChoice();
+    drawWorld();
+    drawHud();
+    /* Only draw the box if it's still open — choosing a cat closes it. */
+    if (state.gearChoice) { drawGearChoice(); }
+    return;
+  }
+
   updatePlaying(dt);
   drawWorld();
   drawHud();
@@ -97,6 +108,7 @@ function updatePlaying(dt) {
   } else {
     moveGrandma(dt);
     keepGrandmaOutOfHorse();   // she has to walk round the horse
+    updateDrops(dt);           // walking over a weapon or armour picks it up
 
     var thing = findNearestThing();
     if (ENGINE.wasPressed(' ')) {
@@ -105,6 +117,7 @@ function updatePlaying(dt) {
   }
 
   updateGrandmaInvulnerability(dt);
+  updateCatSafeTimers(dt);     // cats' short safe spell after a furball hit
 
   for (i = 0; i < state.cats.length; i++) {
     updateCat(state.cats[i], dt);
@@ -117,11 +130,6 @@ function updatePlaying(dt) {
 
   updateBiscuitAttacks(dt);   // Biscuit (and Big Tony) swipe at nearby enemies
   updateFleeingEnemies(dt);
-
-  /* The pause on the "BIG TONY HAS JOINED YOU" moment, which ends the
-     boss day early once it runs out (js/rules/boss.js). */
-  updateBossCelebration(dt);
-  if (state.screen !== 'playing') { return; }
 
   updateHorse(dt);
 
