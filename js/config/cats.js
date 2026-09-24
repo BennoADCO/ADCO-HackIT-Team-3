@@ -34,16 +34,12 @@ Object.assign(CONFIG, {
   CAT_HEALTH_BAR_COLOUR: '#3fbf4f',
   CAT_HEALTH_BAR_EMPTY: 'rgba(0, 0, 0, 0.15)',
 
-  // How fast health drips away, in health-points per second, before personality.
-  HEALTH_DECAY_PER_SECOND: 2.4,
-
 
   /* ------------------------------------------------------------------
      PERSONALITIES
      ------------------------------------------------------------------
      Every cat has one. This is where the character comes from.
 
-     healthDecay   1 is normal. 2 means its health drops twice as fast.
      groomJoy      1 is normal. 2 means grooming heals it twice as much.
      ------------------------------------------------------------------ */
 
@@ -51,32 +47,32 @@ Object.assign(CONFIG, {
     lazy: {
       name: 'Lazy', emoji: '😴',
       blurb: 'Enormous coat. Cannot be hurried.',
-      healthDecay: 0.5, groomJoy: 1.0
+      groomJoy: 1.0
     },
     playful: {
       name: 'Playful', emoji: '🧸',
       blurb: 'Gets bored fast.',
-      healthDecay: 2.0, groomJoy: 1.2
+      groomJoy: 1.2
     },
     diva: {
       name: 'Diva', emoji: '💅',
       blurb: 'Needs constant attention. Knows it.',
-      healthDecay: 1.9, groomJoy: 1.0
+      groomJoy: 1.0
     },
     curious: {
       name: 'Curious', emoji: '🔍',
       blurb: 'Feels better whenever Grandma is nearby.',
-      healthDecay: 1.0, groomJoy: 1.0
+      groomJoy: 1.0
     },
     mischievous: {
       name: 'Mischievous', emoji: '😼',
       blurb: 'Never sits still for long.',
-      healthDecay: 1.1, groomJoy: 1.1
+      groomJoy: 1.1
     },
     affectionate: {
       name: 'Affectionate', emoji: '🥰',
       blurb: 'A cuddle goes a very long way.',
-      healthDecay: 1.2, groomJoy: 2.4
+      groomJoy: 2.4
     }
   },
 

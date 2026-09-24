@@ -2,7 +2,7 @@
    RULES / CATS.JS  —  THE CATS
    ==========================================================================
 
-   How a cat is made, how its health drips away, how it wanders about.
+   How a cat is made, and how it wanders about.
    ========================================================================== */
 
 function makeCat(recipe) {
@@ -58,12 +58,6 @@ function healthTierFor(cat) {
 }
 
 function updateCat(cat, dt) {
-  var p = cat.personality;
-
-  /* --- Health slowly drips away --------------------------------------- */
-  var decay = CONFIG.HEALTH_DECAY_PER_SECOND * p.healthDecay;
-  cat.health -= decay * dt;
-
   /* --- Curious cats perk up when Grandma is close --------------------- */
   if (cat.personalityKey === 'curious') {
     var howFar = ENGINE.distance(cat.x, cat.y, state.grandma.x, state.grandma.y);
