@@ -25,6 +25,7 @@ function startNextDay() {
   state.day++;
   state.dayTime = 0;
   state.dayStats = freshDayStats();
+  resetHorseForDay();   // a new day, a new pointless horse
 
   /* A good night's sleep does everybody good. */
   for (var i = 0; i < state.cats.length; i++) {

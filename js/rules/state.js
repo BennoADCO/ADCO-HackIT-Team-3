@@ -61,6 +61,9 @@ function resetGame() {
     var recipe = CONFIG.STARTING_CATS[i];
     state.cats.push(recipe.followsGrandma ? makeFollowerCat(recipe) : makeCat(recipe));
   }
+
+  /* The random horse (see js/rules/horse.js). */
+  resetHorseForDay();
 }
 
 function freshDayStats() {
