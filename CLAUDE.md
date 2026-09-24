@@ -206,21 +206,29 @@ It will. Be calm about it, and never imply they did something stupid.
 
 ---
 
-## Git: always merge into main when done
+## Git: commit, push and merge into main automatically
 
 There is no review process for this project. Nobody will look at a pull
 request, so do not open one and do not wait for approval. `main` is the
 version everyone plays.
 
-When a piece of work is finished:
+**Do this on your own, without being asked, after every change that
+works.** The team will not remember to ask you to commit or push, and they
+should not have to. You have standing permission to commit, push and merge
+to `main`; do not ask "shall I commit this?" or "shall I push?".
+
+After each working change:
 
 1. Work on a short-lived branch, not directly on `main`.
-2. Run the syntax check above.
-3. Commit, then `git fetch origin` and merge `origin/main` into the branch.
-   If that conflicts, resolve it and run the syntax check again.
-4. Merge the branch into `main` and push `main`. Do not ask first.
+2. Run the syntax check above. If it fails, fix the change first. Never
+   commit or push a version that does not run.
+3. Commit with a one-line message in plain English, then `git fetch origin`
+   and merge `origin/main` into the branch. If that conflicts, resolve it
+   and run the syntax check again.
+4. Merge the branch into `main` and push `main`.
 5. Delete the branch, both locally and on `origin`.
-6. Tell the team to pull, because they are all working from the same `main`.
+6. Say in one line that it is pushed, and remind the team to pull,
+   because they are all working from the same `main`.
 
 Never force-push `main`, and never rewrite history that is already on it.
 
