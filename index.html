@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Grandma's Purradise</title>
+  <title>Grandma's Last Stand</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -11,26 +11,23 @@
   <canvas id="game" width="900" height="600"></canvas>
 
   <p class="hint">
-    Arrow keys or <b>W A S D</b> to walk &nbsp;·&nbsp;
-    <b>SPACE</b> to use whatever you're standing next to &nbsp;·&nbsp;
-    <b>1&ndash;4</b> to buy at the Comfort Shop &nbsp;·&nbsp;
-    <b>M</b> for music
+    Arrow keys or <b>W A S D</b> to dodge &nbsp;·&nbsp;
+    <b>M</b> for music &nbsp;·&nbsp;
+    <b>R</b> to restart
   </p>
 
   <!--
     The script files, loaded in this order:
       config   — the settings, so everything else can read them
       engine   — the machinery: pens, keyboard, sound, the loop
-      rules    — what happens: cats, Grandma, the work, the shop, the days
-      drawing  — what it looks like: the village, the bars, the screens
+      rules    — what happens: Grandma, the enemy cats, the days
+      drawing  — what it looks like: the garden, the bars, the screens
       main     — starts it all up. Always last.
     Adding a new file? Add a line for it here, in the right group,
     or the game will never see it.
   -->
   <script src="js/config/basics.js"></script>
-  <script src="js/config/cats.js"></script>
-  <script src="js/config/knitting.js"></script>
-  <script src="js/config/shop.js"></script>
+  <script src="js/config/enemies.js"></script>
   <script src="js/config/village.js"></script>
   <script src="js/config/sound.js"></script>
   <script src="js/config/words.js"></script>
@@ -43,15 +40,14 @@
   <script src="js/engine/save.js"></script>
 
   <script src="js/rules/state.js"></script>
-  <script src="js/rules/cats.js"></script>
   <script src="js/rules/grandma.js"></script>
-  <script src="js/rules/work.js"></script>
-  <script src="js/rules/shop.js"></script>
+  <script src="js/rules/enemies.js"></script>
   <script src="js/rules/days.js"></script>
   <script src="js/rules/popups.js"></script>
 
   <script src="js/drawing/world.js"></script>
   <script src="js/drawing/characters.js"></script>
+  <script src="js/drawing/enemies.js"></script>
   <script src="js/drawing/hud.js"></script>
   <script src="js/drawing/title.js"></script>
   <script src="js/drawing/results.js"></script>

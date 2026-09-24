@@ -14,7 +14,7 @@ var ctx = null;
 var state = null;
 
 
-/* Wipes the slate clean and starts a brand new season. */
+/* Wipes the slate clean and starts a brand new run. */
 function resetGame() {
   var best = state ? state.bestScore : ENGINE.loadBestScore();
 
@@ -28,71 +28,32 @@ function resetGame() {
       y: CONFIG.GRANDMA.startY,
       bob: 0,
       walking: false,
-      hp: CONFIG.GRANDMA.maxHp
+      hp: CONFIG.GRANDMA.maxHp,
+      invulnerable: 0
     },
 
-    cats: [],
-    coins: 0,
-    prestige: 0,
+    enemies: [],
+    furballs: [],
+    dodged: 0,        // furballs successfully dodged this run — the score
+    dayHits: 0,       // times she was hit today, for the end-of-day screen
 
-    fluff: emptyBag(),
-    yarn: emptyBag(),
-    products: [],
-    showcase: [],
-
-    upgrades: { toys: false, lounge: false, parlour: false },
-    adoptCost: shopItem('adopt').cost,
-    nextAdoptIndex: 0,
-
-    action: null,
     particles: [],
     message: '',
     messageTimer: 0,
-    ambientMeowTimer: CONFIG.AUDIO.ambientMeowSeconds,
-
-    dayStats: freshDayStats(),
-    seasonStats: { fluff: 0, products: 0, coins: 0 },
 
     bestScore: best,
     beatBest: false
   };
 
-  for (var i = 0; i < CONFIG.STARTING_CATS.length; i++) {
-    state.cats.push(makeCat(CONFIG.STARTING_CATS[i]));
-  }
+  spawnWave(state.day);
+  say('Day 1 — ' + state.enemies.length + ' cats have shown up!');
 }
 
-function freshDayStats() {
-  return { fluff: 0, yarn: 0, products: 0, coins: 0, prestige: 0, rares: 0 };
-}
-
-/* A "bag" holds a count for each kind of fur: plain, glitter, rainbow... */
-function emptyBag() {
-  var bag = {};
-  for (var i = 0; i < CONFIG.RARITIES.length; i++) {
-    bag[CONFIG.RARITIES[i].key] = 0;
+/* Which dodge-count medal has this score earned? */
+function medalFor(score) {
+  var best = CONFIG.DODGE_MEDALS[0];
+  for (var i = 0; i < CONFIG.DODGE_MEDALS.length; i++) {
+    if (score >= CONFIG.DODGE_MEDALS[i].min) { best = CONFIG.DODGE_MEDALS[i]; }
   }
-  return bag;
-}
-
-function bagTotal(bag) {
-  var total = 0;
-  for (var i = 0; i < CONFIG.RARITIES.length; i++) {
-    total += bag[CONFIG.RARITIES[i].key];
-  }
-  return total;
-}
-
-function shopItem(key) {
-  for (var i = 0; i < CONFIG.SHOP_ITEMS.length; i++) {
-    if (CONFIG.SHOP_ITEMS[i].key === key) { return CONFIG.SHOP_ITEMS[i]; }
-  }
-  return null;
-}
-
-function stationByKey(key) {
-  for (var i = 0; i < CONFIG.STATIONS.length; i++) {
-    if (CONFIG.STATIONS[i].key === key) { return CONFIG.STATIONS[i]; }
-  }
-  return null;
+  return best;
 }

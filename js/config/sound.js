@@ -49,11 +49,7 @@ Object.assign(CONFIG, {
     meowEveryNotes: 4,
     meowStartsOnNote: 2,
     musicMeowVolume: 0.34,
-    musicMeowPitch: 2.1,       // how high the singing cats are. 2 = one octave up
-
-    // Random background meows from around the village, in seconds.
-    ambientMeowSeconds: 11,
-    meowBasePitch: 560
+    musicMeowPitch: 2.1       // how high the singing cats are. 2 = one octave up
   },
 
 });

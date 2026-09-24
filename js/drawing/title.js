@@ -33,8 +33,8 @@ function drawTitleScreen() {
 
   /* --- The cast, bobbing gently -------------------------------------- */
   var bob = Math.sin(seconds * 2.4) * 3;
-  drawTitleCat(CONFIG.STARTING_CATS[1], 344, 214, bob);
-  drawTitleCat(CONFIG.STARTING_CATS[3], 556, 214, -bob);
+  drawTitleCat(CONFIG.ENEMY_TYPES[0], 344, 214, bob);
+  drawTitleCat(CONFIG.ENEMY_TYPES[1], 556, 214, -bob);
 
   drawVillager({
     emoji: CONFIG.GRANDMA.emoji, x: 450, y: 222,
@@ -53,8 +53,8 @@ function drawTitleScreen() {
   drawLoopChips(W / 2, 356);
 
   /* --- The hook ------------------------------------------------------ */
-  ENGINE.drawText('Happy cats grow magical fur. ' + CONFIG.DAYS_IN_SEASON +
-                  ' days until the Fashion Show.',
+  ENGINE.drawText('The alley cats are furious. Dodge their furballs for ' +
+                  CONFIG.DAYS_IN_SEASON + ' days and win.',
                   W / 2, 392, 15, CONFIG.COLOURS.ink, 'center', 'normal');
 
   /* --- The one button ------------------------------------------------ */

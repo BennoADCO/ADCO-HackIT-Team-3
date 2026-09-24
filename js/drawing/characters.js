@@ -1,10 +1,12 @@
 /* ==========================================================================
-   DRAWING / CHARACTERS.JS  —  GRANDMA AND THE CATS
+   DRAWING / CHARACTERS.JS  —  GRANDMA AND THE ENEMY CATS
    ==========================================================================
 
-   Everybody in this game — Grandma and every cat — is drawn the same
-   way: a big round emoji head sitting on a small chunky body that the
-   game draws with simple shapes. Big head, little body, soft shadow.
+   Everybody in this game — Grandma and every enemy cat — is drawn the
+   same way: a big round emoji head sitting on a small chunky body that
+   the game draws with simple shapes. Big head, little body, soft shadow.
+   The enemy cats' own look (and their furballs) is in drawing/enemies.js;
+   this file just decides the drawing order and draws Grandma herself.
 
    'x' and 'y' are where the character's FEET are, not the middle.
    ========================================================================== */
@@ -65,77 +67,37 @@ function drawVillager(o) {
   return top - headSize * 0.30;   // where the head ended up
 }
 
-function drawCatsAndGrandma() {
-  /* Sort by how far down the screen things are, so closer things overlap
-     further ones. It's a cheap trick that makes it look solid. */
+/* Draws Grandma and every enemy cat in one sorted pass, so whoever is
+   further down the screen overlaps whoever is further back. Cheap trick,
+   makes it look solid. */
+function drawCastAndGrandma() {
   var everything = [];
   var i;
 
-  for (i = 0; i < state.cats.length; i++) {
-    everything.push({ y: state.cats[i].y, cat: state.cats[i] });
+  for (i = 0; i < state.enemies.length; i++) {
+    everything.push({ y: state.enemies[i].y, enemy: state.enemies[i] });
   }
   everything.push({ y: state.grandma.y, grandma: true });
   everything.sort(function (a, b) { return a.y - b.y; });
-
-  var nearest = (state.screen === 'playing' && !state.action) ? findNearestThing() : null;
 
   for (i = 0; i < everything.length; i++) {
     if (everything[i].grandma) {
       drawGrandma();
     } else {
-      drawCat(everything[i].cat, nearest);
+      drawEnemyCat(everything[i].enemy);
     }
   }
-}
-
-function drawCat(cat, nearest) {
-  var bob = Math.sin(cat.bob) * 1.6;
-
-  var isTarget = (nearest && nearest.kind === 'cat' && nearest.cat === cat);
-  var isBeingGroomed = (state.action && state.action.kind === 'groom' &&
-                        state.action.target === cat);
-
-  /* A golden ring on the ground shows who Space will groom. */
-  if (isTarget || isBeingGroomed) {
-    ctx.beginPath();
-    ctx.ellipse(cat.x, cat.y + 2, 34, 13, 0, 0, Math.PI * 2);
-    ctx.strokeStyle = '#f0b429';
-    ctx.lineWidth = 4;
-    ctx.stroke();
-  }
-
-  var headY = drawVillager({
-    emoji: cat.emoji,
-    x: cat.x,
-    y: cat.y,
-    lift: bob,
-    headSize: CONFIG.CAT.headSize,
-    bodyWidth: CONFIG.CAT.bodyWidth,
-    bodyHeight: CONFIG.CAT.bodyHeight,
-    bodyColour: cat.colour,
-    trimColour: 'rgba(255, 255, 255, 0.45)',
-    tail: true
-  });
-
-  /* The personality badge, tucked over its shoulder. */
-  ENGINE.drawEmoji(cat.personality.emoji, cat.x + 21, headY + 12, 17);
-
-  /* A cloud above the head means "ready for a brush". */
-  if (cat.fluff >= 1) {
-    ENGINE.drawEmoji('☁️', cat.x, headY - 24 + Math.sin(cat.bob * 1.6) * 3, 24);
-  }
-
-  /* A little name tag under its feet, with the green health bar built in. */
-  ENGINE.fillRound(cat.x - 33, cat.y + 6, 66, 28, 9, 'rgba(255, 250, 240, 0.95)');
-  ENGINE.strokeRound(cat.x - 33, cat.y + 6, 66, 28, 9, CONFIG.COLOURS.panelEdge, 2);
-  ENGINE.drawText(cat.name, cat.x, cat.y + 15, 11, CONFIG.COLOURS.ink);
-  ENGINE.drawBar(cat.x - 24, cat.y + 24, 48, 6, cat.health / 100,
-                 CONFIG.CAT_HEALTH_BAR_COLOUR, CONFIG.CAT_HEALTH_BAR_EMPTY);
 }
 
 function drawGrandma() {
   var g = CONFIG.GRANDMA;
   var bob = state.grandma.walking ? Math.abs(Math.sin(state.grandma.bob)) * 3 : 0;
+
+  /* While she's briefly safe after a hit, she flickers so it's obvious. */
+  var flickering = state.grandma.invulnerable > 0;
+  if (flickering) {
+    ctx.globalAlpha = 0.45 + Math.sin(Date.now() / 40) * 0.35;
+  }
 
   var headY = drawVillager({
     emoji: g.emoji,
@@ -149,16 +111,10 @@ function drawGrandma() {
     trimColour: g.trimColour
   });
 
+  if (flickering) { ctx.globalAlpha = 1; }
+
   /* Her HP bar, always floating just above her head, with a little heart. */
   ENGINE.drawEmoji('❤️', state.grandma.x - 42, headY - 30, 14);
   ENGINE.drawBar(state.grandma.x - 32, headY - 34, 64, 8,
                  state.grandma.hp / g.maxHp, g.hpBarColour, g.hpBarEmpty);
-
-  /* The bar that fills up while she's busy with a job (sits above the HP). */
-  if (state.action) {
-    var a = state.action;
-    ENGINE.drawBar(state.grandma.x - 34, headY - 50, 68, 10,
-                   a.elapsed / a.duration, '#f0b429', 'rgba(255,255,255,0.85)');
-    ENGINE.drawEmoji('🪡', state.grandma.x + 30, headY + 6, 20);
-  }
 }

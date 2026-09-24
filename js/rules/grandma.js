@@ -2,8 +2,7 @@
    RULES / GRANDMA.JS  —  GRANDMA
    ==========================================================================
 
-   Walking her around with the keyboard, and working out what she's
-   standing next to.
+   Walking her around with the keyboard, and her HP.
    ========================================================================== */
 
 function moveGrandma(dt) {
@@ -36,8 +35,7 @@ function moveGrandma(dt) {
 /* ==========================================================================
    GRANDMA'S HP (hit points)
    ==========================================================================
-   Nothing hurts her yet. When you want something to, call
-   hurtGrandma(10) from anywhere and she loses 10 HP.
+   A furball hit calls hurtGrandma(amount) — see rules/enemies.js.
    If her HP reaches 0, it's game over.
    ========================================================================== */
 
@@ -49,35 +47,11 @@ function isGrandmaOutOfHp() {
   return state.grandma.hp <= 0;
 }
 
-
-/* ==========================================================================
-   WHAT GRANDMA IS STANDING NEXT TO
-   ==========================================================================
-   Every frame we work out the single nearest thing within arm's reach.
-   That's what Space will use.
-   ========================================================================== */
-
-function findNearestThing() {
-  var best = null;
-  var bestDistance = CONFIG.GRANDMA.reach;
-  var i, d;
-
-  for (i = 0; i < state.cats.length; i++) {
-    d = ENGINE.distance(state.grandma.x, state.grandma.y, state.cats[i].x, state.cats[i].y);
-    if (d < bestDistance) {
-      bestDistance = d;
-      best = { kind: 'cat', cat: state.cats[i] };
-    }
+/* Ticks down the little window of safety she gets right after being hit,
+   so one bad moment at the wrong time doesn't drain her whole bar at once. */
+function updateGrandmaInvulnerability(dt) {
+  if (state.grandma.invulnerable > 0) {
+    state.grandma.invulnerable -= dt;
+    if (state.grandma.invulnerable < 0) { state.grandma.invulnerable = 0; }
   }
-
-  for (i = 0; i < CONFIG.STATIONS.length; i++) {
-    var s = CONFIG.STATIONS[i];
-    d = ENGINE.distance(state.grandma.x, state.grandma.y, s.x, s.y);
-    if (d < bestDistance) {
-      bestDistance = d;
-      best = { kind: 'station', station: s };
-    }
-  }
-
-  return best;
 }

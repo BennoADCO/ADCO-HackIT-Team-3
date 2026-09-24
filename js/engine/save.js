@@ -16,7 +16,7 @@ var ENGINE = ENGINE || {};   // join the shared ENGINE toolbox (the first engine
 
   function loadBestScore() {
     try {
-      var stored = window.localStorage.getItem('grannyCatYarnBest');
+      var stored = window.localStorage.getItem('grandmaFurballsDodgedBest');
       var value = parseInt(stored, 10);
       return isNaN(value) ? 0 : value;
     } catch (e) {
@@ -26,7 +26,7 @@ var ENGINE = ENGINE || {};   // join the shared ENGINE toolbox (the first engine
 
   function saveBestScore(score) {
     try {
-      window.localStorage.setItem('grannyCatYarnBest', String(score));
+      window.localStorage.setItem('grandmaFurballsDodgedBest', String(score));
     } catch (e) { /* no memory available — not a problem */ }
   }
 

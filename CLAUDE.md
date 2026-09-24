@@ -151,15 +151,41 @@ knows which file to open and teammates rarely edit the same file at once.
 ```
 index.html      the page and the <script> tags, in load order
 css/style.css   the page around the game, not the game itself
-js/config/      every tuning number and word, one file per topic
-                (basics, cats, knitting, shop, village, sound, words).
+GAME-PLAN.md    the current game's pitch, controls, loop and scope lists
+
+js/config/      every tuning number and word, one file per topic.
                 Plain data, no logic. Each file adds to the shared CONFIG.
+  basics.js       day length, and Grandma herself
+  enemies.js      the enemy cats: names, speed, furballs, how waves grow
+  village.js      the look: colours, trees, flowers, welcome screen
+  sound.js        the music and the meows
+  words.js        the words on screen
+
 js/engine/      the machinery: maths, canvas pens, keyboard, sound, loop,
                 save. Each file adds to the shared ENGINE. Rarely touched.
-js/rules/       what happens: state, cats, grandma, work, shop, days, popups
-js/drawing/     what it looks like: world, characters, hud, title, results
+  maths.js canvas.js keyboard.js sound.js loop.js save.js
+
+js/rules/       what happens — logic only, no drawing
+  state.js        the one box that remembers everything about the run
+  grandma.js      walking her around, her HP, hurtGrandma()
+  enemies.js      spawning waves, enemy movement, furballs, hits
+  days.js         the day clock, sleeping between days, the ending
+  popups.js       floating numbers, sparkles, the message bubble
+
+js/drawing/     what it looks like — reads state, never changes it
+  world.js        the garden: grass, plaza, trees and flowers
+  characters.js   the shared "big head, little body" character drawing
+  enemies.js      drawing the enemy cats and their furballs
+  hud.js          the bars along the top and bottom
+  title.js        the welcome screen
+  results.js      end-of-day, game over, and the victory screen
+
 js/main.js      startup and the per-frame update. Always loaded last.
 ```
+
+This list is for the game currently being built. When the team starts a
+genuinely new game from scratch, treat it as a template to rename, not a
+fixed law — but keep the same five folders and the same load order.
 
 Load order in `index.html` is always: **config, then engine, then rules,
 then drawing, then main.** A new file does nothing until it has a

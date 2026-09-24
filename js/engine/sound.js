@@ -120,7 +120,7 @@ var ENGINE = ENGINE || {};   // join the shared ENGINE toolbox (the first engine
     if (!ensureAudio() || muted) { return; }
     try {
       var t = when || audioCtx.currentTime;
-      var f0 = pitch || CONFIG.AUDIO.meowBasePitch;
+      var f0 = pitch || 560;
       var peak = volume || 0.5;
       var len = 0.5;
 
@@ -182,6 +182,10 @@ var ENGINE = ENGINE || {};   // join the shared ENGINE toolbox (the first engine
       playTone({ freq: 587, duration: 0.3, volume: 0.25, type: 'triangle', when: now + 0.12 });
     } else if (name === 'deny') {
       playTone({ freq: 200, duration: 0.18, volume: 0.22, type: 'square', slideTo: 130, when: now });
+    } else if (name === 'throw') {
+      playTone({ freq: 340, duration: 0.1, volume: 0.14, type: 'sine', slideTo: 220, when: now });
+    } else if (name === 'hit') {
+      playTone({ freq: 180, duration: 0.22, volume: 0.3, type: 'sawtooth', slideTo: 60, when: now });
     } else if (name === 'rare') {
       var notes = [660, 880, 1170, 1568];
       for (i = 0; i < notes.length; i++) {

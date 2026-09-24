@@ -10,14 +10,14 @@
      'title'    — the front page
      'playing'  — actually playing
      'dayEnd'   — the end-of-day summary
-     'show'     — the Fashion Show, at the end of the season
+     'show'     — the victory screen, after surviving all five days
      'gameOver' — Grandma ran out of HP
 
    Where everything else lives:
      js/config/      every number and word — the files to fiddle with
      js/engine/      the machinery: pens, keyboard, sound, loop. Rarely touched.
-     js/rules/       WHAT HAPPENS: cats, Grandma, the work, the shop, the days
-     js/drawing/     WHAT IT LOOKS LIKE: the village, the bars, the screens
+     js/rules/       WHAT HAPPENS: Grandma, the enemy cats, the days
+     js/drawing/     WHAT IT LOOKS LIKE: the garden, the bars, the screens
    ========================================================================== */
 
 function startGame() {
@@ -52,7 +52,7 @@ function everyFrame(dt) {
   if (state.screen === 'show') {
     if (ENGINE.wasPressed('r', ' ', 'enter')) { resetGame(); }
     drawWorld();
-    drawFashionShow();
+    drawVictoryScreen();
     return;
   }
 
@@ -74,53 +74,23 @@ function updatePlaying(dt) {
   updateDayClock(dt);
   if (state.screen !== 'playing') { return; }
 
-  var i;
+  moveGrandma(dt);
+  updateGrandmaInvulnerability(dt);
 
-  /* Grandma only moves when she isn't in the middle of a job. */
-  if (state.action) {
-    updateAction(dt);
-    state.grandma.walking = false;
-  } else {
-    moveGrandma(dt);
-
-    var thing = findNearestThing();
-    if (ENGINE.wasPressed(' ')) {
-      tryToStartAction(thing);
-    }
-
-    /* Number keys only do anything while you're standing at the shop. */
-    if (thing && thing.kind === 'station' && thing.station.key === 'shop') {
-      for (i = 0; i < CONFIG.SHOP_ITEMS.length; i++) {
-        if (ENGINE.wasPressed(String(i + 1))) { tryToBuy(i); }
-      }
-    }
-  }
-
-  for (i = 0; i < state.cats.length; i++) {
-    updateCat(state.cats[i], dt);
-  }
-  keepCatsApart();
+  updateEnemies(dt);
+  keepEnemiesApart();
+  updateFurballs(dt);
 
   updateParticles(dt);
 
   /* Out of HP? Then it's game over. */
   if (isGrandmaOutOfHp()) {
-    state.action = null;
     state.screen = 'gameOver';
     ENGINE.sound('dayEnd');
     return;
   }
 
   if (state.messageTimer > 0) { state.messageTimer -= dt; }
-
-  /* The occasional meow from somewhere across the sanctuary. */
-  state.ambientMeowTimer -= dt;
-  if (state.ambientMeowTimer <= 0) {
-    state.ambientMeowTimer = CONFIG.AUDIO.ambientMeowSeconds * ENGINE.randomBetween(0.6, 1.5);
-    if (state.cats.length > 0) {
-      ENGINE.meow(CONFIG.AUDIO.meowBasePitch * ENGINE.randomBetween(0.7, 1.3));
-    }
-  }
 }
 
 

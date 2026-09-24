@@ -1,16 +1,14 @@
 /* ==========================================================================
-   CONFIG / BASICS.JS  —  DAYS, GRANDMA AND THE WORK
+   CONFIG / BASICS.JS  —  DAYS AND GRANDMA
    ==========================================================================
 
    Every file in js/config/ is nothing but numbers and words. Nothing
    happens in these files — they just write down what the game should use.
 
    THESE ARE THE FILES TO CHANGE if you want the game to feel different:
-     basics.js    how long a day is, Grandma, how long each job takes
-     cats.js      the cats: names, personalities, health
-     knitting.js  magic fur, what Grandma knits, the Fashion Show medals
-     shop.js      the Comfort Shop: prices and what the upgrades do
-     village.js   the look: colours, shops, trees, flowers, welcome screen
+     basics.js    how long a day is, and Grandma herself
+     enemies.js   the enemy cats: names, speed, furballs, how waves grow
+     village.js   the look: colours, trees, flowers, welcome screen
      sound.js     the music and the meows
      words.js     the words on screen
 
@@ -31,15 +29,16 @@ Object.assign(CONFIG, {
      THE BASICS
      ------------------------------------------------------------------ */
 
-  GAME_TITLE: "Grandma's Purradise",
-  GAME_SUBTITLE: 'Fluff in. Fashion out.',
+  GAME_TITLE: "Grandma's Last Stand",
+  GAME_SUBTITLE: 'Dodge the furballs. Survive the garden.',
 
   // The picture is always this many dots across and down. The browser
   // stretches it to fit the window, so don't worry about screen sizes.
   CANVAS_WIDTH: 900,
   CANVAS_HEIGHT: 600,
 
-  // How long a single day lasts, in seconds, and how many days in a season.
+  // How long a single day lasts, in seconds, and how many days you must
+  // survive to win.
   DAY_LENGTH_SECONDS: 45,
   DAYS_IN_SEASON: 5,
 
@@ -60,39 +59,18 @@ Object.assign(CONFIG, {
     bodyColour: '#e88aa8',    // her cardigan
     trimColour: '#fff1e0',    // her apron / pinny
     speed: 270,          // dots she travels per second. Higher = faster.
-    reach: 82,           // how close she must get to use a cat or a building
     startX: 450,
     startY: 360,
 
+    // Her hitbox — how close a furball has to get to actually hit her.
+    // Smaller than she looks on screen, so near-misses feel fair.
+    hitRadius: 22,
+
     // Her HP (hit points) — the red bar above her head. If it ever
-    // reaches 0 it's GAME OVER. Nothing hurts her yet.
+    // reaches 0 it's GAME OVER.
     maxHp: 100,
     hpBarColour: '#e5484d',
     hpBarEmpty: 'rgba(0, 0, 0, 0.25)'
   },
-
-
-  /* ------------------------------------------------------------------
-     THE WORK — how long each job takes and how much it produces
-     ------------------------------------------------------------------ */
-
-  // Seconds Grandma spends on each job. She can't move while working.
-  GROOM_SECONDS: 0.85,
-  SPIN_SECONDS: 1.1,
-  KNIT_SECONDS: 1.4,
-  SELL_SECONDS: 0.9,
-
-  // The processing chain. Fluff becomes yarn, yarn becomes a product.
-  FLUFF_PER_YARN: 3,      // 3 balls of fluff make 1 ball of yarn
-  YARN_PER_PRODUCT: 2,    // 2 balls of yarn make 1 knitted thing
-
-  // Health a cat gets back when you groom it, before its personality is applied.
-  GROOM_HEALTH_BONUS: 14,
-
-  // Cats sleep well. Every cat wakes up with this much more health each morning.
-  OVERNIGHT_HEALTH_RECOVERY: 22,
-
-  // Health every cat gets back when you buy something at the Comfort Shop.
-  SHOP_HEALTH_BONUS: 15,
 
 });
