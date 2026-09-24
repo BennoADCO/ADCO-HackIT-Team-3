@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Grandma's Purradise</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- The whole game is drawn inside this one box. -->
+  <canvas id="game" width="900" height="600"></canvas>
+
+  <p class="hint">
+    Arrow keys or <b>W A S D</b> to walk &nbsp;·&nbsp;
+    <b>SPACE</b> to use whatever you're standing next to &nbsp;·&nbsp;
+    <b>1&ndash;4</b> to buy at the Comfort Shop &nbsp;·&nbsp;
+    <b>M</b> for music
+  </p>
+
+  <!--
+    The three script files, loaded in this order and no other:
+      config  — the settings, so the others can read them
+      engine  — the machinery, which uses the settings
+      game    — the rules, which use both
+    If you swap these around, the game will stop working.
+  -->
+  <script src="js/config.js"></script>
+  <script src="js/engine.js"></script>
+  <script src="js/game.js"></script>
+
+</body>
+</html>
