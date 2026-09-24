@@ -191,6 +191,25 @@ Load order in `index.html` is always: **config, then engine, then rules,
 then drawing, then main.** A new file does nothing until it has a
 `<script>` line there.
 
+### Keep it modular as you go
+
+Teammates are editing all afternoon, so small separate files mean fewer
+clashes and an easier time finding things.
+
+- **Every new feature gets its own files** — its own `js/config/<feature>.js`,
+  `js/rules/<feature>.js` and `js/drawing/<feature>.js` as needed, like
+  `enemies` and `tutorial`. Don't grow an existing file with a new feature.
+- **Split as you go, not in a big bang.** When you are already working in a
+  file and it has grown past about 200 lines or is doing two jobs, move the
+  separate part out to its own file as part of that change. Don't
+  reorganise files nobody asked you to touch — someone may be mid-edit.
+- **Keep one job per file.** Rules never draw; drawing never changes state;
+  numbers and words live in config.
+- **Clean up after removals.** When a feature is cut, delete its config
+  entries, words and files too, and its `<script>` lines.
+- **Keep the file list above current.** Add, rename or remove its line in
+  the same change that adds, renames or removes a file.
+
 **Build in this order**, and leave the game playable at every single step:
 
 1. A window that opens and draws something. Confirm they can see it.
