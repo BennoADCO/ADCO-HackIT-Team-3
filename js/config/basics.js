@@ -1,14 +1,15 @@
 /* ==========================================================================
-   CONFIG / BASICS.JS  —  DAYS AND GRANDMA
+   CONFIG / BASICS.JS  —  DAYS, GRANDMA AND GROOMING
    ==========================================================================
 
    Every file in js/config/ is nothing but numbers and words. Nothing
    happens in these files — they just write down what the game should use.
 
    THESE ARE THE FILES TO CHANGE if you want the game to feel different:
-     basics.js    how long a day is, and Grandma herself
+     basics.js    how long a day is, Grandma, and grooming
+     cats.js      the cats: names, personalities, health
      enemies.js   the enemy cats: names, speed, furballs, how waves grow
-     village.js   the look: colours, trees, flowers, welcome screen
+     village.js   the look: colours, trees, flowers, welcome screen, the horse
      sound.js     the music and the meows
      words.js     the words on screen
 
@@ -30,7 +31,7 @@ Object.assign(CONFIG, {
      ------------------------------------------------------------------ */
 
   GAME_TITLE: "Grandma's Last Stand",
-  GAME_SUBTITLE: 'Dodge the furballs. Survive the garden.',
+  GAME_SUBTITLE: 'Keep Biscuit happy. Dodge the furballs.',
 
   // The picture is always this many dots across and down. The browser
   // stretches it to fit the window, so don't worry about screen sizes.
@@ -59,6 +60,7 @@ Object.assign(CONFIG, {
     bodyColour: '#e88aa8',    // her cardigan
     trimColour: '#fff1e0',    // her apron / pinny
     speed: 270,          // dots she travels per second. Higher = faster.
+    reach: 82,           // how close she must get to groom a cat
     startX: 450,
     startY: 360,
 
@@ -72,5 +74,21 @@ Object.assign(CONFIG, {
     hpBarColour: '#e5484d',
     hpBarEmpty: 'rgba(0, 0, 0, 0.25)'
   },
+
+
+  /* ------------------------------------------------------------------
+     GROOMING
+     ------------------------------------------------------------------ */
+
+  // Seconds Grandma spends brushing a cat. She can't move while grooming
+  // — which also means she can't dodge, so time it carefully.
+  GROOM_SECONDS: 0.85,
+
+  // Health a cat gets back from one groom, before its personality is applied.
+  // Health goes from 0 to 100, so 25 means about four grooms from empty to full.
+  GROOM_HEALTH_BONUS: 25,
+
+  // Cats sleep well. Every cat wakes up with this much more health each morning.
+  OVERNIGHT_HEALTH_RECOVERY: 22,
 
 });

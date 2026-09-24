@@ -33,8 +33,8 @@ function drawTitleScreen() {
 
   /* --- The cast, bobbing gently -------------------------------------- */
   var bob = Math.sin(seconds * 2.4) * 3;
-  drawTitleCat(CONFIG.ENEMY_TYPES[0], 344, 214, bob);
-  drawTitleCat(CONFIG.ENEMY_TYPES[1], 556, 214, -bob);
+  drawTitleCat(CONFIG.STARTING_CATS[0], 344, 214, bob);
+  drawTitleCat(CONFIG.ENEMY_TYPES[0], 556, 214, -bob);
 
   drawVillager({
     emoji: CONFIG.GRANDMA.emoji, x: 450, y: 222,
@@ -49,12 +49,11 @@ function drawTitleScreen() {
   ENGINE.drawText(CONFIG.GAME_SUBTITLE, W / 2, 312, 16,
                   CONFIG.COLOURS.inkSoft, 'center', 'normal');
 
-  /* --- The whole game, in four pills --------------------------------- */
+  /* --- The whole game, in four pills ----------------------------------- */
   drawLoopChips(W / 2, 356);
 
   /* --- The hook ------------------------------------------------------ */
-  ENGINE.drawText('The alley cats are furious. Dodge their furballs for ' +
-                  CONFIG.DAYS_IN_SEASON + ' days and win.',
+  ENGINE.drawText(CONFIG.TEXT.titleHook,
                   W / 2, 392, 15, CONFIG.COLOURS.ink, 'center', 'normal');
 
   /* --- The one button ------------------------------------------------ */
@@ -62,9 +61,9 @@ function drawTitleScreen() {
 
   /* --- The small print ----------------------------------------------- */
   if (state.bestScore > 0) {
-    ENGINE.fillRound(W / 2 - 88, 470, 176, 26, 13, '#fbeed2');
-    ENGINE.drawEmoji('🏆', W / 2 - 58, 483, 15);
-    ENGINE.drawText('Best ever  ' + state.bestScore, W / 2 + 12, 484, 14, '#a06a2c');
+    ENGINE.fillRound(W / 2 - 100, 470, 200, 26, 13, '#fbeed2');
+    ENGINE.drawEmoji('💨', W / 2 - 70, 483, 15);
+    ENGINE.drawText('Best dodges  ' + state.bestScore, W / 2 + 16, 484, 14, '#a06a2c');
   }
 
   ENGINE.drawText(CONFIG.TEXT.controls, W / 2, 512, 13,
@@ -145,7 +144,7 @@ function drawBunting(fromX, toX, y) {
   }
 }
 
-/* The four steps of the game, as coloured pills with arrows between. */
+/* The steps of the game, as coloured pills with arrows between. */
 function drawLoopChips(centreX, y) {
   var chips = CONFIG.TITLE.chips;
   var chipW = 108;

@@ -264,6 +264,13 @@ works.** The team will not remember to ask you to commit or push, and they
 should not have to. You have standing permission to commit, push and merge
 to `main`; do not ask "shall I commit this?" or "shall I push?".
 
+**At the start of every new task, before reading or changing any file:**
+switch to `main`, run `git fetch origin`, then `git pull` so you are working
+on everyone's latest version. Teammates push all afternoon, and editing a
+stale copy leads to conflicts or to undoing their work. If the pull fails
+because of uncommitted changes, stop and tell the team in plain English
+rather than discarding anything.
+
 After each working change:
 
 1. Work on a short-lived branch, not directly on `main`.

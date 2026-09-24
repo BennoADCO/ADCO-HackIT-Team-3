@@ -11,22 +11,24 @@
   <canvas id="game" width="900" height="600"></canvas>
 
   <p class="hint">
-    Arrow keys or <b>W A S D</b> to dodge &nbsp;·&nbsp;
-    <b>M</b> for music &nbsp;·&nbsp;
-    <b>R</b> to restart
+    Arrow keys or <b>W A S D</b> to walk and dodge &nbsp;·&nbsp;
+    <b>SPACE</b> to groom Biscuit &nbsp;·&nbsp;
+    <b>M</b> for music
   </p>
 
   <!--
     The script files, loaded in this order:
       config   — the settings, so everything else can read them
       engine   — the machinery: pens, keyboard, sound, the loop
-      rules    — what happens: Grandma, the enemy cats, the days
+      rules    — what happens: cats, Grandma, grooming, the enemy cats,
+                 the horse, the days
       drawing  — what it looks like: the garden, the bars, the screens
       main     — starts it all up. Always last.
     Adding a new file? Add a line for it here, in the right group,
     or the game will never see it.
   -->
   <script src="js/config/basics.js"></script>
+  <script src="js/config/cats.js"></script>
   <script src="js/config/enemies.js"></script>
   <script src="js/config/village.js"></script>
   <script src="js/config/sound.js"></script>
@@ -40,10 +42,13 @@
   <script src="js/engine/save.js"></script>
 
   <script src="js/rules/state.js"></script>
+  <script src="js/rules/cats.js"></script>
   <script src="js/rules/grandma.js"></script>
+  <script src="js/rules/work.js"></script>
   <script src="js/rules/enemies.js"></script>
   <script src="js/rules/days.js"></script>
   <script src="js/rules/popups.js"></script>
+  <script src="js/rules/horse.js"></script>
 
   <script src="js/drawing/world.js"></script>
   <script src="js/drawing/characters.js"></script>

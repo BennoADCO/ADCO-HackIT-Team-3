@@ -2,8 +2,9 @@
    DRAWING / HUD.JS  —  THE BARS ALONG THE TOP AND BOTTOM
    ==========================================================================
 
-   The top bar shows the day, the clock, and the score. The bottom bar
-   always tells you what's going on. Also the message bubble.
+   The top bar shows the day, the clock, Biscuit's health, and the
+   furball-dodge score. The bottom bar always tells you what's going on.
+   Also the message bubble.
    ========================================================================== */
 
 /* ==========================================================================
@@ -21,9 +22,15 @@ function drawHud() {
   ENGINE.drawBar(132, 29, 132, 12, state.dayTime / CONFIG.DAY_LENGTH_SECONDS,
                  '#ffd24a', 'rgba(0,0,0,0.35)');
 
-  drawHudChip('💨', state.dodged, 420, '#bde6ff');
-  drawHudChip('😾', state.enemies.length, 560, '#ffb3b3');
-  drawHudChip('🏆', state.bestScore, 700, '#ffd24a');
+  /* Biscuit's health, then the furball-dodging score. */
+  var friend = followerCat();
+  if (friend) {
+    drawHudChip('💚', friend.name + '  ' + Math.round(friend.health), 340,
+                CONFIG.CAT_HEALTH_BAR_COLOUR);
+  }
+  drawHudChip('💨', state.dodged, 540, '#bde6ff');
+  drawHudChip('😾', state.enemies.length, 650, '#ffb3b3');
+  drawHudChip('🏆', state.bestScore, 760, '#ffd24a');
 
   if (ENGINE.isMuted()) {
     ENGINE.drawText('🔇 muted (M)', W - 30, 74, 12, '#6b5a47', 'right');
@@ -35,6 +42,13 @@ function drawHudChip(emoji, value, x, colour) {
   ENGINE.drawText(String(value), x + 2, 35, 19, colour, 'left');
 }
 
+/* The cat trotting along with Grandma (Biscuit), or nothing if there isn't one. */
+function followerCat() {
+  for (var i = 0; i < state.cats.length; i++) {
+    if (state.cats[i].followsGrandma) { return state.cats[i]; }
+  }
+  return null;
+}
 
 /* ==========================================================================
    THE BAR ALONG THE BOTTOM — always tells you what to do next
@@ -48,6 +62,12 @@ function drawBottomBar() {
   var midY = y + 27;
   var ink = CONFIG.COLOURS.hudText;
 
+  /* Busy? Say who she's grooming — and that furballs don't wait for her. */
+  if (state.action) {
+    ENGINE.drawText('Grooming ' + state.action.target.name + '...', W / 2, midY, 18, '#ffd24a');
+    return;
+  }
+
   /* Low on HP? Say so in red instead of the usual reminder. */
   if (state.grandma.hp <= CONFIG.GRANDMA.maxHp * 0.3) {
     ENGINE.drawEmoji('⚠️', 52, midY, 20);
@@ -55,8 +75,30 @@ function drawBottomBar() {
     return;
   }
 
+  var thing = findNearestThing();
+
+  if (thing && thing.kind === 'cat') {
+    var cat = thing.cat;
+    var tier = healthTierFor(cat);
+    ENGINE.drawText('SPACE', 46, midY, 17, '#ffd24a', 'left');
+    ENGINE.drawText('Groom ' + cat.name, 118, midY, 18, ink, 'left');
+    ENGINE.drawText(cat.personality.emoji + '  ' + cat.personality.name + ' · ' +
+                    tier.name + ' · ' + cat.personality.blurb,
+                    W - 46, midY, 14, '#d8c8b4', 'right', 'normal');
+    return;
+  }
+
+  /* Standing in open space: just say what to do next. */
   ENGINE.drawEmoji('👉', 52, midY, 20);
-  ENGINE.drawText(CONFIG.TEXT.dodgeHint, 76, midY, 17, ink, 'left');
+  ENGINE.drawText(nextStepHint(), 76, midY, 17, ink, 'left');
+}
+
+/* Works out the single most useful thing to tell the player right now. */
+function nextStepHint() {
+  var friend = followerCat();
+  if (friend && friend.health >= 100) { return CONFIG.TEXT.allWell; }
+  if (friend) { return CONFIG.TEXT.needGroom; }
+  return CONFIG.TEXT.dodgeHint;
 }
 
 function drawMessage() {

@@ -2,7 +2,8 @@
    RULES / GRANDMA.JS  —  GRANDMA
    ==========================================================================
 
-   Walking her around with the keyboard, and her HP.
+   Walking her around with the keyboard, her HP, and working out which
+   cat she's standing next to.
    ========================================================================== */
 
 function moveGrandma(dt) {
@@ -54,4 +55,38 @@ function updateGrandmaInvulnerability(dt) {
     state.grandma.invulnerable -= dt;
     if (state.grandma.invulnerable < 0) { state.grandma.invulnerable = 0; }
   }
+}
+
+
+/* ==========================================================================
+   WHAT GRANDMA IS STANDING NEXT TO
+   ==========================================================================
+   Every frame we work out the single nearest thing within arm's reach.
+   That's what Space will use — always Biscuit, or another cat, since
+   grooming is the only thing Space still does.
+   ========================================================================== */
+
+function findNearestThing() {
+  var best = null;
+  var bestDistance = CONFIG.GRANDMA.reach;
+  var i, d;
+  var follower = null;
+
+  for (i = 0; i < state.cats.length; i++) {
+    /* Biscuit is always at her heels, so Biscuit is looked at last. */
+    if (state.cats[i].followsGrandma) { follower = state.cats[i]; continue; }
+    d = ENGINE.distance(state.grandma.x, state.grandma.y, state.cats[i].x, state.cats[i].y);
+    if (d < bestDistance) {
+      bestDistance = d;
+      best = { kind: 'cat', cat: state.cats[i] };
+    }
+  }
+
+  /* Nothing else in reach? Then Space means Biscuit. */
+  if (!best && follower &&
+      ENGINE.distance(state.grandma.x, state.grandma.y, follower.x, follower.y) < CONFIG.GRANDMA.reach) {
+    best = { kind: 'cat', cat: follower };
+  }
+
+  return best;
 }

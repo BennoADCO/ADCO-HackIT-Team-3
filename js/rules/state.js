@@ -3,8 +3,7 @@
    ==========================================================================
 
    The one box (called "state") that holds everything about the season in
-   progress, how to wipe it clean for a new season, and a few small
-   look-up helpers the other rules files share.
+   progress, and how to wipe it clean for a new season.
    ========================================================================== */
 
 /* The pen for drawing the picture. It is set up when the page loads. */
@@ -32,21 +31,39 @@ function resetGame() {
       invulnerable: 0
     },
 
+    cats: [],
+
     enemies: [],
     furballs: [],
     dodged: 0,        // furballs successfully dodged this run — the score
     dayHits: 0,       // times she was hit today, for the end-of-day screen
 
+    action: null,
     particles: [],
     message: '',
     messageTimer: 0,
+    ambientMeowTimer: CONFIG.AUDIO.ambientMeowSeconds,
+
+    dayStats: freshDayStats(),
 
     bestScore: best,
     beatBest: false
   };
 
+  for (var i = 0; i < CONFIG.STARTING_CATS.length; i++) {
+    var recipe = CONFIG.STARTING_CATS[i];
+    state.cats.push(recipe.followsGrandma ? makeFollowerCat(recipe) : makeCat(recipe));
+  }
+
+  /* The random horse (see js/rules/horse.js). */
+  resetHorseForDay();
+
   spawnWave(state.day);
   say('Day 1 — ' + state.enemies.length + ' cats have shown up!');
+}
+
+function freshDayStats() {
+  return { grooms: 0 };
 }
 
 /* Which dodge-count medal has this score earned? */

@@ -7,16 +7,17 @@
    picture.
 
    The game is always in one of five screens:
-     'title'    — the front page
-     'playing'  — actually playing
-     'dayEnd'   — the end-of-day summary
-     'show'     — the victory screen, after surviving all five days
-     'gameOver' — Grandma ran out of HP
+     'title'     — the front page
+     'playing'   — actually playing
+     'dayEnd'    — the end-of-day summary
+     'seasonEnd' — the end of the season, after surviving all five days
+     'gameOver'  — Grandma ran out of HP
 
    Where everything else lives:
      js/config/      every number and word — the files to fiddle with
      js/engine/      the machinery: pens, keyboard, sound, loop. Rarely touched.
-     js/rules/       WHAT HAPPENS: Grandma, the enemy cats, the days
+     js/rules/       WHAT HAPPENS: cats, Grandma, grooming, the enemy cats,
+                     the horse, the days
      js/drawing/     WHAT IT LOOKS LIKE: the garden, the bars, the screens
    ========================================================================== */
 
@@ -49,10 +50,10 @@ function everyFrame(dt) {
     return;
   }
 
-  if (state.screen === 'show') {
+  if (state.screen === 'seasonEnd') {
     if (ENGINE.wasPressed('r', ' ', 'enter')) { resetGame(); }
     drawWorld();
-    drawVictoryScreen();
+    drawSeasonEnd();
     return;
   }
 
@@ -74,23 +75,56 @@ function updatePlaying(dt) {
   updateDayClock(dt);
   if (state.screen !== 'playing') { return; }
 
-  moveGrandma(dt);
+  var i;
+
+  /* Grandma stands still while she grooms. Furballs and the horse don't
+     pause for that — standing still to groom Biscuit is riskier. */
+  if (state.action) {
+    updateAction(dt);
+    state.grandma.walking = false;
+  } else {
+    moveGrandma(dt);
+    keepGrandmaOutOfHorse();   // she has to walk round the horse
+
+    var thing = findNearestThing();
+    if (ENGINE.wasPressed(' ')) {
+      tryToStartAction(thing);
+    }
+  }
+
   updateGrandmaInvulnerability(dt);
+
+  for (i = 0; i < state.cats.length; i++) {
+    updateCat(state.cats[i], dt);
+  }
+  keepCatsApart();
 
   updateEnemies(dt);
   keepEnemiesApart();
   updateFurballs(dt);
 
+  updateHorse(dt);
+
   updateParticles(dt);
 
   /* Out of HP? Then it's game over. */
   if (isGrandmaOutOfHp()) {
+    state.action = null;
     state.screen = 'gameOver';
     ENGINE.sound('dayEnd');
     return;
   }
 
   if (state.messageTimer > 0) { state.messageTimer -= dt; }
+
+  /* The occasional meow from somewhere across the sanctuary. */
+  state.ambientMeowTimer -= dt;
+  if (state.ambientMeowTimer <= 0) {
+    state.ambientMeowTimer = CONFIG.AUDIO.ambientMeowSeconds * ENGINE.randomBetween(0.6, 1.5);
+    if (state.cats.length > 0) {
+      ENGINE.meow(CONFIG.AUDIO.meowBasePitch * ENGINE.randomBetween(0.7, 1.3));
+    }
+  }
 }
 
 
