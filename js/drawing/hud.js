@@ -96,6 +96,8 @@ function drawBottomBar() {
 /* Works out the single most useful thing to tell the player right now. */
 function nextStepHint() {
   var friend = followerCat();
+  if (friend && friend.knockedOut) { return friend.name + ' ' + CONFIG.KNOCKOUT.words.hint; }
+  if (state.drops.length > 0) { return CONFIG.GEAR_WORDS.dropHint; }
   if (friend && friend.health >= 100) { return CONFIG.TEXT.allWell; }
   if (friend) { return CONFIG.TEXT.needGroom; }
   return CONFIG.TEXT.dodgeHint;

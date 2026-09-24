@@ -28,13 +28,17 @@ function updateBiscuitAttacks(dt) {
   biscuit.lunge = Math.max(0, biscuit.lunge - 90 * dt);
   biscuit.swipeTimer -= dt;
 
-  /* No swiping while Biscuit is busy being groomed. */
+  /* No swiping while Biscuit is busy being groomed, or knocked out. */
   var beingGroomed = state.action && state.action.target === biscuit;
-  if (beingGroomed || biscuit.swipeTimer > 0) { return; }
+  if (beingGroomed || biscuit.knockedOut || biscuit.swipeTimer > 0) { return; }
+
+  /* Whatever Biscuit is holding changes how hard, how often and how far
+     it swipes (see js/config/gear.js). */
+  var weapon = weaponFor(biscuit);
 
   /* Find the nearest enemy close enough to reach. */
   var target = null;
-  var targetGap = attack.range;
+  var targetGap = attack.range + weapon.extraReach;
   for (var i = 0; i < state.enemies.length; i++) {
     var gap = ENGINE.distance(biscuit.x, biscuit.y, state.enemies[i].x, state.enemies[i].y);
     if (gap < targetGap) { target = state.enemies[i]; targetGap = gap; }
@@ -42,17 +46,17 @@ function updateBiscuitAttacks(dt) {
   if (!target) { return; }
 
   /* SWIPE! */
-  biscuit.swipeTimer = attack.secondsBetween;
+  biscuit.swipeTimer = attack.secondsBetween / weapon.swipeSpeed;
   biscuit.lunge = attack.lungeDistance;
   biscuit.lungeX = (target.x - biscuit.x) / Math.max(targetGap, 1);
   biscuit.lungeY = (target.y - biscuit.y) / Math.max(targetGap, 1);
 
-  target.hitsTaken = (target.hitsTaken || 0) + 1;
+  target.damageTaken = (target.damageTaken || 0) + weapon.damage;
   state.swipes.push({ x: target.x, y: target.y - 30, life: 0.3, maxLife: 0.3 });
   addParticle(target.x, target.y - 70, CONFIG.BISCUIT_WORDS.swipe, '#e5484d', 20);
   ENGINE.sound('bossHit');
 
-  if (target.hitsTaken >= CONFIG.ENEMY_HITS_TO_BEAT) {
+  if (target.damageTaken >= CONFIG.ENEMY_HITS_TO_BEAT) {
     chaseOffEnemy(target);
   }
 }
@@ -74,6 +78,9 @@ function chaseOffEnemy(enemy) {
   sparkle(enemy.x, enemy.y - 30, '#f0b429');
   say(CONFIG.BISCUIT_WORDS.chasedOff + ' ' + enemy.name + '!');
   ENGINE.sound('sell');
+
+  /* It might leave a weapon or armour behind (see js/rules/gear.js). */
+  maybeDropGear(enemy.x, enemy.y);
 
   if (state.enemies.length === 0) {
     say(CONFIG.BISCUIT_WORDS.allGone);

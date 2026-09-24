@@ -8,9 +8,9 @@
 
 /* A small red bar over an enemy's head. Only shows once it's been hit. */
 function drawEnemyHealth(enemy) {
-  var hits = enemy.hitsTaken || 0;
-  if (hits === 0) { return; }
-  var left = 1 - hits / CONFIG.ENEMY_HITS_TO_BEAT;
+  var hurt = enemy.damageTaken || 0;
+  if (hurt === 0) { return; }
+  var left = 1 - hurt / CONFIG.ENEMY_HITS_TO_BEAT;
   ENGINE.drawBar(enemy.x - 22, enemy.y - 82, 44, 6, left,
                  CONFIG.ENEMY_HEALTH_BAR_COLOUR, CONFIG.ENEMY_HEALTH_BAR_EMPTY);
 }

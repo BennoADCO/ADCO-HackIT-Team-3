@@ -61,6 +61,10 @@ Object.assign(CONFIG, {
   // harder. 1 = no change. 0.92 means 8% faster each day.
   WAVE_FIRE_SPEEDUP_PER_DAY: 0.9,
 
+  // Chase off every enemy cat and the day ends early. This is how many
+  // seconds the game waits first, so you can watch the last one run off.
+  WAVE_CLEARED_PAUSE_SECONDS: 2,
+
 
   /* ------------------------------------------------------------------
      FURBALLS

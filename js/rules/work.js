@@ -50,6 +50,9 @@ function doGroom(cat) {
   ENGINE.meow(CONFIG.AUDIO.meowBasePitch * ENGINE.randomBetween(0.82, 1.25));
   addParticle(cat.x, cat.y - 34, '+' + gained + ' 💚', CONFIG.CAT_HEALTH_BAR_COLOUR, 18);
 
+  /* A knocked-out cat might be well enough to get up now. */
+  checkCatWakesUp(cat);
+
   if (cat.health >= 100) {
     say(cat.name + ' is glowing with health!');
     sparkle(cat.x, cat.y, '#ffd24a');

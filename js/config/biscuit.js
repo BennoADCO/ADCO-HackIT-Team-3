@@ -25,7 +25,8 @@ Object.assign(CONFIG, {
     slashColour: '#ffffff' // the colour of the claw marks
   },
 
-  // How many swipes it takes before an enemy cat gives up and runs away.
+  // How many bare-paw swipes it takes before an enemy cat gives up and
+  // runs away. Weapons hit harder, so need fewer (see js/config/gear.js).
   ENEMY_HITS_TO_BEAT: 3,
 
   // The little bar over each enemy cat's head showing how close it is to giving up.

@@ -7,7 +7,8 @@
    that the game draws with simple shapes. Big head, little body, soft
    shadow. The enemy cats' own look (and their furballs) is in
    drawing/enemies.js; this file decides the drawing order for everyone
-   and draws Grandma, Biscuit and the horse themselves.
+   and draws Grandma and Biscuit themselves (the horse is in
+   drawing/horse.js).
 
    'x' and 'y' are where the character's FEET are, not the middle.
    ========================================================================== */
@@ -125,7 +126,7 @@ function drawCat(cat, nearest) {
   }
 
   var headY = drawVillager({
-    emoji: cat.emoji,
+    emoji: cat.knockedOut ? CONFIG.KNOCKOUT.emoji : cat.emoji,
     x: cat.x,
     y: cat.y,
     lift: bob,
@@ -139,6 +140,9 @@ function drawCat(cat, nearest) {
 
   /* The personality badge, tucked over its shoulder. */
   ENGINE.drawEmoji(cat.personality.emoji, cat.x + 21, headY + 12, 17);
+
+  /* Its weapon and armour, if it has any (js/drawing/gear.js). */
+  drawCatGear(cat, headY);
 
   /* Biscuit (or any cat following Grandma) wears its health bar above
      its head, like Grandma's HP bar, with just its name underneath. */
@@ -198,21 +202,4 @@ function drawGrandma() {
                    a.elapsed / a.duration, '#f0b429', 'rgba(255,255,255,0.85)');
     ENGINE.drawEmoji('🐾', state.grandma.x + 30, headY + 6, 20);
   }
-}
-
-/* The random horse. Drawn just like everybody else: a big emoji head on a
-   chunky little body. It does nothing, so there's nothing else to draw. */
-function drawHorse() {
-  var h = CONFIG.HORSE;
-  drawVillager({
-    emoji: h.emoji,
-    x: state.horse.x,
-    y: state.horse.y,
-    lift: -horseLift(),
-    headSize: h.headSize,
-    bodyWidth: h.bodyWidth,
-    bodyHeight: h.bodyHeight,
-    bodyColour: h.bodyColour,
-    tail: true
-  });
 }

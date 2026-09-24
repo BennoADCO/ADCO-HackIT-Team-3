@@ -11,6 +11,7 @@
 function spawnWave(day) {
   state.enemies = [];
   state.furballs = [];
+  state.clearedFor = 0;   // seconds since the last cat was chased off (see days.js)
 
   var sizes = CONFIG.WAVE_SIZES;
   var count = sizes[Math.min(day, sizes.length) - 1];
@@ -159,6 +160,12 @@ function updateFurballs(dt) {
         state.furballs.splice(i, 1);
         continue;
       }
+    }
+
+    /* Or did it hit one of the friendly cats? (js/rules/knockout.js) */
+    if (furballHitsCat(f)) {
+      state.furballs.splice(i, 1);
+      continue;
     }
 
     /* Off the edge of the picture, uncaught — a clean dodge. */

@@ -158,6 +158,8 @@ js/config/      every tuning number and word, one file per topic.
   basics.js       day length, and Grandma herself
   enemies.js      the enemy cats: names, speed, furballs, how waves grow
   biscuit.js      Biscuit's swipe: range, speed, hits to chase an enemy off
+  gear.js         weapons and armour: their strength, drop chance, words
+  knockout.js     furballs hitting friendly cats, and getting knocked out
   village.js      the look: colours, trees, flowers, welcome screen
   sound.js        the music and the meows
   words.js        the words on screen
@@ -171,6 +173,8 @@ js/rules/       what happens — logic only, no drawing
   grandma.js      walking her around, her HP, hurtGrandma()
   enemies.js      spawning waves, enemy movement, furballs, hits
   biscuit.js      Biscuit swiping nearby enemies; beaten cats running off
+  gear.js         upgrade drops, picking them up, choosing a cat, equipping
+  knockout.js     furballs hurting friendly cats, knocked out, waking up
   days.js         the day clock, sleeping between days, the ending
   popups.js       floating numbers, sparkles, the message bubble
 
@@ -179,6 +183,8 @@ js/drawing/     what it looks like — reads state, never changes it
   characters.js   the shared "big head, little body" character drawing
   enemies.js      drawing the enemy cats and their furballs
   biscuit.js      claw marks, enemy health bars, cats running away
+  gear.js         drops on the ground, gear on the cats, the "who gets it?" box
+  horse.js        the random horse
   hud.js          the bars along the top and bottom
   title.js        the welcome screen
   results.js      end-of-day, game over, and the victory screen

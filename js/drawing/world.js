@@ -10,6 +10,7 @@ function drawWorld() {
   drawGrass();
   drawPlaza();
   drawScenery();
+  drawDrops();            // weapon and armour upgrades on the ground (js/drawing/gear.js)
   drawCastAndGrandma();
   drawFleeingEnemies();   // beaten cats running off (js/drawing/biscuit.js)
   drawSwipes();           // Biscuit's claw marks
