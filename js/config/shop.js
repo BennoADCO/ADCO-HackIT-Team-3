@@ -23,7 +23,7 @@ Object.assign(CONFIG, {
   SHOP_ITEMS: [
     {
       key: 'toys', emoji: '🧸', name: 'Toy Basket', cost: 40,
-      blurb: 'Playful cats stop getting bored. Everyone cheers up a bit.'
+      blurb: 'Playful cats stop getting bored. Everyone feels a bit better.'
     },
     {
       key: 'lounge', emoji: '🛏️', name: 'Sun Lounge', cost: 75,
@@ -44,7 +44,7 @@ Object.assign(CONFIG, {
 
   // What the upgrades actually do.
   UPGRADE_EFFECTS: {
-    toysPlayfulDecay: 0.35,   // Playful cats' mood drains at 35% speed
+    toysPlayfulDecay: 0.35,   // Playful cats' health drains at 35% speed
     toysAllDecay: 0.85,       // everyone else at 85%
     loungeAllDecay: 0.6,      // Sun Lounge slows everyone to 60%
     parlourDivaDecay: 0.45,   // Divas calm right down

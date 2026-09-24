@@ -6,11 +6,12 @@
    times a second) it reads the keys, runs the rules, and draws the
    picture.
 
-   The game is always in one of four screens:
-     'title'   — the front page
-     'playing' — actually playing
-     'dayEnd'  — the end-of-day summary
-     'show'    — the Fashion Show, at the end of the season
+   The game is always in one of five screens:
+     'title'    — the front page
+     'playing'  — actually playing
+     'dayEnd'   — the end-of-day summary
+     'show'     — the Fashion Show, at the end of the season
+     'gameOver' — Grandma ran out of HP
 
    Where everything else lives:
      js/config/      every number and word — the files to fiddle with
@@ -55,6 +56,13 @@ function everyFrame(dt) {
     return;
   }
 
+  if (state.screen === 'gameOver') {
+    if (ENGINE.wasPressed('r', ' ', 'enter')) { resetGame(); }
+    drawWorld();
+    drawGameOver();
+    return;
+  }
+
   updatePlaying(dt);
   drawWorld();
   drawHud();
@@ -94,6 +102,14 @@ function updatePlaying(dt) {
   keepCatsApart();
 
   updateParticles(dt);
+
+  /* Out of HP? Then it's game over. */
+  if (isGrandmaOutOfHp()) {
+    state.action = null;
+    state.screen = 'gameOver';
+    ENGINE.sound('dayEnd');
+    return;
+  }
 
   if (state.messageTimer > 0) { state.messageTimer -= dt; }
 

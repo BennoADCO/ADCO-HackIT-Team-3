@@ -95,7 +95,7 @@ function drawBottomBar() {
 
   if (thing && thing.kind === 'cat') {
     var cat = thing.cat;
-    var tier = moodTierFor(cat);
+    var tier = healthTierFor(cat);
     if (cat.fluff >= 1) {
       ENGINE.drawText('SPACE', 46, midY, 17, '#ffd24a', 'left');
       ENGINE.drawText('Groom ' + cat.name, 118, midY, 18, ink, 'left');

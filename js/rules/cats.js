@@ -2,7 +2,7 @@
    RULES / CATS.JS  —  THE CATS
    ==========================================================================
 
-   How a cat is made, how its mood drips away, how its coat grows back,
+   How a cat is made, how its health drips away, how its coat grows back,
    how it wanders about, and the odd bit of mischief.
    ========================================================================== */
 
@@ -21,24 +21,24 @@ function makeCat(recipe) {
     targetY: ENGINE.randomBetween(area.top, area.bottom),
     pauseTimer: ENGINE.randomBetween(0, CONFIG.CAT_PAUSE_SECONDS),
 
-    mood: 70,
+    health: 70,
     fluff: ENGINE.randomBetween(0.3, 1),
     bob: ENGINE.randomBetween(0, 6),
     mischiefTimer: CONFIG.MISCHIEF_EVERY_SECONDS
   };
 }
 
-/* Which mood band is this cat in? Returns the whole tier from config. */
-function moodTierFor(cat) {
-  var tiers = CONFIG.MOOD_TIERS;
+/* Which health band is this cat in? Returns the whole tier from config. */
+function healthTierFor(cat) {
+  var tiers = CONFIG.HEALTH_TIERS;
   var best = tiers[0];
   for (var i = 0; i < tiers.length; i++) {
-    if (cat.mood >= tiers[i].min) { best = tiers[i]; }
+    if (cat.health >= tiers[i].min) { best = tiers[i]; }
   }
   return best;
 }
 
-/* How much the things you've bought slow down this cat's grumpiness. */
+/* How much the things you've bought slow down this cat's health dropping. */
 function decayMultiplierFor(cat) {
   var fx = CONFIG.UPGRADE_EFFECTS;
   var multiplier = 1;
@@ -60,19 +60,19 @@ function decayMultiplierFor(cat) {
 function updateCat(cat, dt) {
   var p = cat.personality;
 
-  /* --- Mood slowly drips away --------------------------------------- */
-  var decay = CONFIG.MOOD_DECAY_PER_SECOND * p.moodDecay * decayMultiplierFor(cat);
-  cat.mood -= decay * dt;
+  /* --- Health slowly drips away --------------------------------------- */
+  var decay = CONFIG.HEALTH_DECAY_PER_SECOND * p.healthDecay * decayMultiplierFor(cat);
+  cat.health -= decay * dt;
 
   /* --- Curious cats perk up when Grandma is close --------------------- */
   if (cat.personalityKey === 'curious') {
     var howFar = ENGINE.distance(cat.x, cat.y, state.grandma.x, state.grandma.y);
     if (howFar < CONFIG.CURIOUS_RANGE) {
-      cat.mood += CONFIG.CURIOUS_MOOD_PER_SECOND * dt;
+      cat.health += CONFIG.CURIOUS_HEALTH_PER_SECOND * dt;
     }
   }
 
-  cat.mood = ENGINE.clamp(cat.mood, 0, 100);
+  cat.health = ENGINE.clamp(cat.health, 0, 100);
 
   /* --- The coat grows back ------------------------------------------- */
   if (cat.fluff < 1) {
