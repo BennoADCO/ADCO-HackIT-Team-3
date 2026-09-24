@@ -88,9 +88,18 @@ we'd look at adding back.
 ```
 index.html      the page
 css/style.css   the page around the game
-js/config.js    EVERY number and word — this is the one to fiddle with
-js/engine.js    the machinery. Rarely touched.
-js/game.js      the rules of the game.
+js/config/      EVERY number and word — these are the ones to fiddle with
+  basics.js       day length, Grandma, how long each job takes
+  cats.js         names, personalities, moods
+  knitting.js     magic fur, what Grandma knits, medals
+  shop.js         Comfort Shop prices and upgrades
+  village.js      colours, shops, trees, flowers, welcome screen
+  sound.js        the music and the meows
+  words.js        the words on screen
+js/engine/      the machinery (pens, keyboard, sound, loop). Rarely touched.
+js/rules/       WHAT HAPPENS — cats, Grandma, the work, the shop, the days
+js/drawing/     WHAT IT LOOKS LIKE — the village, the bars, the screens
+js/main.js      starts everything up
 ```
 
 **To play:** double-click `index.html`. That's it — no installing anything.

@@ -124,18 +124,25 @@ downloaded art or music · large sprite animations
 
 ## How to build it
 
-**Create this structure.** It exists so a non-coder always knows which
-file to open.
+**Keep this structure.** One small file per topic, so a non-coder always
+knows which file to open and teammates rarely edit the same file at once.
 
 ```
 index.html      the page and the <script> tags, in load order
 css/style.css   the page around the game, not the game itself
-js/config.js    every tuning number and word. Plain data, no logic.
-js/engine.js    game loop, input, sound, helpers. Written once, rarely touched.
-js/game.js      the rules. Most changes go here.
+js/config/      every tuning number and word, one file per topic
+                (basics, cats, knitting, shop, village, sound, words).
+                Plain data, no logic. Each file adds to the shared CONFIG.
+js/engine/      the machinery: maths, canvas pens, keyboard, sound, loop,
+                save. Each file adds to the shared ENGINE. Rarely touched.
+js/rules/       what happens: state, cats, grandma, work, shop, days, popups
+js/drawing/     what it looks like: world, characters, hud, title, results
+js/main.js      startup and the per-frame update. Always loaded last.
 ```
 
-Load order in `index.html` is always: **config, then engine, then game.**
+Load order in `index.html` is always: **config, then engine, then rules,
+then drawing, then main.** A new file does nothing until it has a
+`<script>` line there.
 
 **Build in this order**, and leave the game playable at every single step:
 
@@ -154,10 +161,10 @@ Never leave them with a version that does not run. A broken file at the
 
 ## House rules for the code
 
-- **Put every number in `config.js`.** Speeds, sizes, colours, spawn
+- **Put every number in `js/config/`.** Speeds, sizes, colours, spawn
   rates, points, lives. A non-coder tuning a number in a clearly labelled
   settings file is the main way they will contribute. Never bury a number
-  in `game.js` that they might reasonably want to change.
+  in `js/rules/` or `js/drawing/` that they might reasonably want to change.
 - **Comment for a reader who has never seen code.** Section banners, plain
   English, no jargon without a gloss. This is the point, not decoration.
 - **Prefer plain `function` declarations** and simple `for` loops over

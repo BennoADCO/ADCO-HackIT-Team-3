@@ -18,15 +18,45 @@
   </p>
 
   <!--
-    The three script files, loaded in this order and no other:
-      config  — the settings, so the others can read them
-      engine  — the machinery, which uses the settings
-      game    — the rules, which use both
-    If you swap these around, the game will stop working.
+    The script files, loaded in this order:
+      config   — the settings, so everything else can read them
+      engine   — the machinery: pens, keyboard, sound, the loop
+      rules    — what happens: cats, Grandma, the work, the shop, the days
+      drawing  — what it looks like: the village, the bars, the screens
+      main     — starts it all up. Always last.
+    Adding a new file? Add a line for it here, in the right group,
+    or the game will never see it.
   -->
-  <script src="js/config.js"></script>
-  <script src="js/engine.js"></script>
-  <script src="js/game.js"></script>
+  <script src="js/config/basics.js"></script>
+  <script src="js/config/cats.js"></script>
+  <script src="js/config/knitting.js"></script>
+  <script src="js/config/shop.js"></script>
+  <script src="js/config/village.js"></script>
+  <script src="js/config/sound.js"></script>
+  <script src="js/config/words.js"></script>
+
+  <script src="js/engine/maths.js"></script>
+  <script src="js/engine/canvas.js"></script>
+  <script src="js/engine/keyboard.js"></script>
+  <script src="js/engine/sound.js"></script>
+  <script src="js/engine/loop.js"></script>
+  <script src="js/engine/save.js"></script>
+
+  <script src="js/rules/state.js"></script>
+  <script src="js/rules/cats.js"></script>
+  <script src="js/rules/grandma.js"></script>
+  <script src="js/rules/work.js"></script>
+  <script src="js/rules/shop.js"></script>
+  <script src="js/rules/days.js"></script>
+  <script src="js/rules/popups.js"></script>
+
+  <script src="js/drawing/world.js"></script>
+  <script src="js/drawing/characters.js"></script>
+  <script src="js/drawing/hud.js"></script>
+  <script src="js/drawing/title.js"></script>
+  <script src="js/drawing/results.js"></script>
+
+  <script src="js/main.js"></script>
 
 </body>
 </html>
