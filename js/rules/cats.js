@@ -21,11 +21,33 @@ function makeCat(recipe) {
     targetY: ENGINE.randomBetween(area.top, area.bottom),
     pauseTimer: ENGINE.randomBetween(0, CONFIG.CAT_PAUSE_SECONDS),
 
+    followsGrandma: recipe.followsGrandma === true,
+
     health: 70,
     fluff: ENGINE.randomBetween(0.3, 1),
     bob: ENGINE.randomBetween(0, 6),
     mischiefTimer: CONFIG.MISCHIEF_EVERY_SECONDS
   };
+}
+
+/* A cat that follows Grandma starts right beside her. */
+function makeFollowerCat(recipe) {
+  var cat = makeCat(recipe);
+  cat.x = CONFIG.GRANDMA.startX - CONFIG.FOLLOW_GAP;
+  cat.y = CONFIG.GRANDMA.startY;
+  return cat;
+}
+
+/* Trot towards Grandma, and stop once close enough. */
+function followGrandma(cat, dt) {
+  var dx = state.grandma.x - cat.x;
+  var dy = state.grandma.y - cat.y;
+  var gap = Math.sqrt(dx * dx + dy * dy);
+  if (gap <= CONFIG.FOLLOW_GAP) { return; }
+
+  var step = Math.min(CONFIG.FOLLOW_SPEED * dt, gap - CONFIG.FOLLOW_GAP);
+  cat.x += (dx / gap) * step;
+  cat.y += (dy / gap) * step;
 }
 
 /* Which health band is this cat in? Returns the whole tier from config. */
@@ -91,7 +113,9 @@ function updateCat(cat, dt) {
 
   /* --- Pottering about ------------------------------------------------ */
   cat.bob += dt * 3;
-  if (cat.pauseTimer > 0) {
+  if (cat.followsGrandma) {
+    followGrandma(cat, dt);
+  } else if (cat.pauseTimer > 0) {
     cat.pauseTimer -= dt;
   } else {
     var dx = cat.targetX - cat.x;
@@ -135,9 +159,10 @@ function keepCatsApart() {
     }
   }
 
-  /* And keep everybody on the rug. */
+  /* And keep everybody on the rug — except a cat following Grandma. */
   var area = CONFIG.CAT_AREA;
   for (var i = 0; i < state.cats.length; i++) {
+    if (state.cats[i].followsGrandma) { continue; }
     state.cats[i].x = ENGINE.clamp(state.cats[i].x, area.left, area.right);
     state.cats[i].y = ENGINE.clamp(state.cats[i].y, area.top, area.bottom);
   }

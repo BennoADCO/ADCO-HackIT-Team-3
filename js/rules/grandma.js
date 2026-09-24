@@ -61,8 +61,11 @@ function findNearestThing() {
   var best = null;
   var bestDistance = CONFIG.GRANDMA.reach;
   var i, d;
+  var follower = null;
 
   for (i = 0; i < state.cats.length; i++) {
+    /* Biscuit is always at her heels, so Biscuit is looked at last. */
+    if (state.cats[i].followsGrandma) { follower = state.cats[i]; continue; }
     d = ENGINE.distance(state.grandma.x, state.grandma.y, state.cats[i].x, state.cats[i].y);
     if (d < bestDistance) {
       bestDistance = d;
@@ -77,6 +80,12 @@ function findNearestThing() {
       bestDistance = d;
       best = { kind: 'station', station: s };
     }
+  }
+
+  /* Nothing else in reach? Then Space means Biscuit. */
+  if (!best && follower &&
+      ENGINE.distance(state.grandma.x, state.grandma.y, follower.x, follower.y) < CONFIG.GRANDMA.reach) {
+    best = { kind: 'cat', cat: follower };
   }
 
   return best;

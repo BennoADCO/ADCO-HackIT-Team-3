@@ -33,8 +33,8 @@ function drawTitleScreen() {
 
   /* --- The cast, bobbing gently -------------------------------------- */
   var bob = Math.sin(seconds * 2.4) * 3;
-  drawTitleCat(CONFIG.STARTING_CATS[1], 344, 214, bob);
-  drawTitleCat(CONFIG.STARTING_CATS[3], 556, 214, -bob);
+  drawTitleCat(CONFIG.STARTING_CATS[0], 344, 214, bob);
+  drawTitleCat(CONFIG.ADOPTABLE_CATS[0], 556, 214, -bob);
 
   drawVillager({
     emoji: CONFIG.GRANDMA.emoji, x: 450, y: 222,

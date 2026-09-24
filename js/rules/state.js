@@ -58,7 +58,8 @@ function resetGame() {
   };
 
   for (var i = 0; i < CONFIG.STARTING_CATS.length; i++) {
-    state.cats.push(makeCat(CONFIG.STARTING_CATS[i]));
+    var recipe = CONFIG.STARTING_CATS[i];
+    state.cats.push(recipe.followsGrandma ? makeFollowerCat(recipe) : makeCat(recipe));
   }
 }
 
