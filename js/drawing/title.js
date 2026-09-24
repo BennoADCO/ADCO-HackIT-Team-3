@@ -4,10 +4,22 @@
 
    The first thing anybody sees, so it does a lot of work: it names the
    game, shows the characters, explains the whole loop in four words, and
-   gives one obvious button to press.
+   gives one obvious button to press — plus a quieter Tutorial button
+   beside it, which opens the (completely wrong) tutorial.
    ========================================================================== */
 
 var titleFloaters = null;
+
+/* Where the two buttons sit, in game dots. Clicks are checked against
+   these boxes too, so moving a button here moves where you click it. */
+var TITLE_PLAY_BUTTON = { centreX: 350, centreY: 438, width: 290, height: 54 };
+var TITLE_TUTORIAL_BUTTON = { centreX: 612, centreY: 438, width: 190, height: 54 };
+
+function wasButtonClicked(button) {
+  return ENGINE.wasClickedInside(button.centreX - button.width / 2,
+                                 button.centreY - button.height / 2,
+                                 button.width, button.height);
+}
 
 function drawTitleScreen() {
   var W = CONFIG.CANVAS_WIDTH;
@@ -57,8 +69,9 @@ function drawTitleScreen() {
                   ' days until the Fashion Show.',
                   W / 2, 392, 15, CONFIG.COLOURS.ink, 'center', 'normal');
 
-  /* --- The one button ------------------------------------------------ */
-  drawStartButton(W / 2, 438, seconds);
+  /* --- The buttons -------------------------------------------------- */
+  drawStartButton(seconds);
+  drawTutorialButton();
 
   /* --- The small print ----------------------------------------------- */
   if (state.bestScore > 0) {
@@ -169,13 +182,14 @@ function drawLoopChips(centreX, y) {
 }
 
 /* One big obvious button. It breathes, so your eye lands on it. */
-function drawStartButton(centreX, y, seconds) {
+function drawStartButton(seconds) {
   var T = CONFIG.TITLE;
+  var B = TITLE_PLAY_BUTTON;
   var pulse = Math.sin(seconds * 3) * 0.5 + 0.5;
-  var width = 320 + pulse * 10;
-  var height = 54;
-  var left = centreX - width / 2;
-  var top = y - height / 2;
+  var width = B.width + pulse * 10;
+  var height = B.height;
+  var left = B.centreX - width / 2;
+  var top = B.centreY - height / 2;
 
   /* A soft halo that swells in and out. */
   ctx.globalAlpha = 0.16 + pulse * 0.18;
@@ -187,7 +201,23 @@ function drawStartButton(centreX, y, seconds) {
   ENGINE.fillRound(left + 16, top + 7, width - 32, height * 0.34, 12,
                    'rgba(255, 255, 255, 0.24)');
 
-  ENGINE.drawText(T.buttonText, centreX, y + 2, 19, '#ffffff');
+  ENGINE.drawText(T.buttonText, B.centreX, B.centreY + 2, 19, '#ffffff');
+}
+
+/* The quieter button beside it. It doesn't breathe; Play is the star. */
+function drawTutorialButton() {
+  var T = CONFIG.TITLE;
+  var B = TITLE_TUTORIAL_BUTTON;
+  var left = B.centreX - B.width / 2;
+  var top = B.centreY - B.height / 2;
+
+  ENGINE.fillRound(left, top + 5, B.width, B.height, 27, T.tutorialButtonShadow);
+  ENGINE.fillRound(left, top, B.width, B.height, 27, T.tutorialButtonColour);
+  ENGINE.fillRound(left + 16, top + 7, B.width - 32, B.height * 0.34, 12,
+                   'rgba(255, 255, 255, 0.24)');
+
+  ENGINE.drawEmoji(T.tutorialButtonEmoji, left + 30, B.centreY + 1, 22);
+  ENGINE.drawText(T.tutorialButtonText, B.centreX + 14, B.centreY + 2, 17, '#ffffff');
 }
 
 /* One of the cats, posing on the front page. */

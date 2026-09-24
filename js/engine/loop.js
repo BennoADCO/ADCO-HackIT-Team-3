@@ -31,6 +31,7 @@ var ENGINE = ENGINE || {};   // join the shared ENGINE toolbox (the first engine
     ENGINE.updateMusic();
     if (updateFunction) { updateFunction(dt); }
     ENGINE.clearPressed();
+    ENGINE.clearClicks();
 
     window.requestAnimationFrame(frame);
   }
